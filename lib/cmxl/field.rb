@@ -52,11 +52,16 @@ module Cmxl
     alias :to_hash :to_h
 
     def to_date(date, year=nil)
-      match = date.match(DATE)
-      year ||= "20#{match['year']}"
-      month = match['month']
-      day = match['day']
-      Date.new(year.to_i, month.to_i, day.to_i)
+      if match = date.match(DATE)
+        year ||= "20#{match['year']}"
+        month = match['month']
+        day = match['day']
+        Date.new(year.to_i, month.to_i, day.to_i)
+      else
+        date
+      end
+    rescue ArgumentError # let's simply ignore invalid dates
+      date
     end
 
     def method_missing(m, *value)
