@@ -6,7 +6,7 @@ module Cmxl
 
       def sub_fields
         @sub_fields ||= if self.data['details'] =~ /#{Regexp.escape(self.data['seperator'])}(\d{2})/
-            self.data['details'].split(/#{Regexp.escape(self.data['seperator'])}(\d{2})/).reject(&:empty?).each_slice(2).to_h
+            Hash[*self.data['details'].split(/#{Regexp.escape(self.data['seperator'])}(\d{2})/).reject(&:empty?)]
           else
             {}
           end
@@ -23,7 +23,7 @@ module Cmxl
 
       def sepa
         if self.information =~ /([A-Z]{4})\+/
-          self.information.split(/([A-Z]{4})\+/).reject(&:empty?).each_slice(2).to_h
+          Hash[*self.information.split(/([A-Z]{4})\+/).reject(&:empty?)]
         else
           {}
         end
