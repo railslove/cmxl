@@ -50,6 +50,9 @@ module Cmxl
       self.data
     end
     alias :to_hash :to_h
+    def to_json(*args)
+      to_h.to_json(*args)
+    end
 
     def to_date(date, year=nil)
       if match = date.match(DATE)

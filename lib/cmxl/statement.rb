@@ -60,6 +60,22 @@ module Cmxl
       self.field(64)
     end
 
+    def to_h
+      {
+        'reference' => reference,
+        'sha' => sha,
+        'generation_date' => generation_date,
+        'account_identification' => account_identification,
+        'opening_balance' => opening_balance,
+        'closing_balance' => closing_balance,
+        'available_balance' => available_balance,
+        'transactions' => transactions
+      }
+    end
+    alias :to_hash :to_h
+    def to_json(*args)
+      to_h.to_json(*args)
+    end
 
     def field(tag, modifier=nil)
       self.fields.detect {|field| field.tag == tag.to_s && (modifier.nil? || field.modifier == modifier) }
