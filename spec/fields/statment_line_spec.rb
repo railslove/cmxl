@@ -8,8 +8,8 @@ describe Cmxl::Fields::StatementLine do
   it { expect(subject.entry_date).to eql(Date.new(2014,9,2)) }
   it { expect(subject.funds_code).to eql('D') }
   it { expect(subject.currency_letter).to eql('R') }
-  it { expect(subject.amount).to eql(-1.62) }
-  it { expect(subject.amount_in_cents).to eql(-162) }
+  it { expect(subject.amount).to eql(1.62) }
+  it { expect(subject.amount_in_cents).to eql(162) }
   it { expect(subject.swift_code).to eql('NTRF') }
   it { expect(subject.reference).to eql('0000549855700010') }
   it { expect(subject.bank_reference).to eql('025498557/000001') }

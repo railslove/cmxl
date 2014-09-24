@@ -17,11 +17,11 @@ module Cmxl
       end
 
       def amount
-        self.data['amount'].gsub(',','.').to_f * sign
+        to_amount(self.data['amount'])
       end
 
       def amount_in_cents
-        self.data['amount'].gsub(',', '').gsub('.','').to_i * sign
+        to_amount_in_cents(self.data['amount'])
       end
 
       def date
