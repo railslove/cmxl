@@ -57,7 +57,7 @@ module Cmxl
     end
 
     def to_date(date, year=nil)
-      if match = date.match(DATE)
+      if match = date.to_s.match(DATE)
         year ||= "20#{match['year']}"
         month = match['month']
         day = match['day']
