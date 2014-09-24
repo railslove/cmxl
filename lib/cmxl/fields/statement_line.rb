@@ -43,7 +43,8 @@ module Cmxl
           'funds_code' => funds_code,
           'swift_code' => swift_code,
           'reference' => reference,
-          'bank_reference' => bank_reference
+          'bank_reference' => bank_reference,
+          'currency_letter' => currency_letter
         }
       end
     end
