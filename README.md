@@ -133,4 +133,4 @@ other parsers:
 
 ------------
 
-2014 - built with love by [Railslove](http://railslove.com). We have built quite a number of FinTech products. If you need support with our application we are happy to help. 
+2014 - built with love by [Railslove](http://railslove.com). We have built quite a number of FinTech products. If you need support we are happy to help. Please contact us at team@railslove.com.
