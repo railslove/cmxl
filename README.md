@@ -1,11 +1,11 @@
-# Cmxl - your friendly ruby MT940 bank statement parser
+# Cmxl - your friendly ruby MT940 parser
 
 At Railslove we build a lot of banking and payment applications and work on integrating applications with banks and banking functionality. 
 Our goal is to making it easy with what sometimes seems complicated. 
 
-Cmxl is a friendly and extendible MT940 file parser that helps your extracting data from the bank statement files. 
+Cmxl is a friendly and extendible MT940 bank statement file parser that helps your extracting data from the bank statement files. 
 
-## What is MT940
+## What is MT940?
 
 MT940 (MT = Message Type) is the SWIFT-Standard for the electronic transfer of bank statement files. 
 When integrating with banks you often get MT940 files as interface. 
@@ -15,7 +15,7 @@ At some point in the future MT940 file should be exchanged with newer XML docume
 
 ## Reqirements
 
-Cmxl is§ a pure ruby parser and has no gem dependencies. 
+Cmxl is a pure ruby parser and has no gem dependencies. 
 
 * Ruby 1.9.3 or newer
 
@@ -66,9 +66,16 @@ statements.each do |s|
   end
 end
 
+```
+
 Every object responds to `to_h` and let's you easily convert the data to a hash. 
 
-```
+#### a note about encoding and file wirednesses
+
+You probably will encounter encoding issues (hey, you are building banking applications!). 
+We try to handle encoding and format wirednesses as much as possible.  
+If you have encoding issues you can pass encoding options to the `Cmxl.parse(<string>, <options hash>)` it accepts the same options as [String#encode](http://ruby-doc.org/core-2.1.3/String.html#method-i-encode)
+If that fails try to motify the file before you pass it to the parser - and please create an issue.
 
 ### Custom field parsers
 
@@ -91,7 +98,6 @@ my_field_parser = MyFieldParser.parse(":42:hello from mt940")
 my_field_parser.world #=> hello from MT940
 my_field_parser.upcased #=> HELLO FROM MT940
 my_field_parser.data #=> {'world' => 'hello from mt940'} - data is the accessor to the regexp matches
-
 
 ```
 
