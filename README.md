@@ -101,6 +101,12 @@ my_field_parser.data #=> {'world' => 'hello from mt940'} - data is the accessor 
 
 ```
 
+## Parsing issues? - please create an issue with your file
+
+The Mt940 format often looks different for the different banks and the different countries. Especially the not strict defined fields are often used for custom bank data. 
+If you have a file that can not be parsed please open an issue. We hope to build a parser that handles most of the files.
+
+
 ## ToDo
 
 * collect MT940 files from different banks and use them as example for specs
@@ -127,4 +133,4 @@ other parsers:
 
 ------------
 
-2014 - built with love by [Railslove](http://railslove.com). We have built quite a number of Fintech products. If you need help with our application we are happy to help. 
+2014 - built with love by [Railslove](http://railslove.com). We have built quite a number of FinTech products. If you need support with our application we are happy to help. 
