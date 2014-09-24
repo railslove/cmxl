@@ -13,6 +13,8 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/railslove/cmxl"
   spec.license       = "MIT"
 
+  spec.post_install_message = "Thanks for using Cmxl - your friendly MT940 parser!\nWe hope we can make dealing with MT940 files a bit more fun. :) \nPlease create an issue on github if anything is not as expected.\n\n"
+
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
