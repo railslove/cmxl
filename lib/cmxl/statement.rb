@@ -81,7 +81,8 @@ module Cmxl
         'opening_balance' => opening_balance,
         'closing_balance' => closing_balance,
         'available_balance' => available_balance,
-        'transactions' => transactions
+        'transactions' => transactions,
+        'fields' => fields
       }
     end
     alias :to_hash :to_h

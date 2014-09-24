@@ -32,15 +32,19 @@ module Cmxl
       end
 
       def to_h
-        super.merge({
+        {
           'date' => date,
           'entry_date' => entry_date,
           'amount' => amount,
           'amount_in_cents' => amount_in_cents,
           'sign' => sign,
           'debit' => debit?,
-          'credit' => credit?
-        })
+          'credit' => credit?,
+          'funds_code' => funds_code,
+          'swift_code' => swift_code,
+          'reference' => reference,
+          'bank_reference' => bank_reference
+        }
       end
     end
   end

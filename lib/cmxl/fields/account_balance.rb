@@ -29,7 +29,7 @@ module Cmxl
       end
 
       def to_h
-        {
+        super.merge({
           'date' => date,
           'funds_code' => funds_code,
           'credit' => credit?,
@@ -38,7 +38,7 @@ module Cmxl
           'amount' => amount,
           'amount_in_cents' => amount_in_cents,
           'sign' => sign
-        }
+        })
       end
     end
   end

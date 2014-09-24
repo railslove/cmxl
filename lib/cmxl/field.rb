@@ -66,7 +66,7 @@ module Cmxl
     end
 
     def to_h
-      self.data
+      self.data.merge('tag' => self.tag)
     end
     alias :to_hash :to_h
     def to_json(*args)

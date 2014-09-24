@@ -21,7 +21,8 @@ describe Cmxl::Fields::AccountBalance do
         'currency' =>"EUR",
         'amount' =>147.64,
         'amount_in_cents' =>14764,
-        'sign' =>1
+        'sign' =>1,
+        'tag' => '60'
     }) }
   end
 
