@@ -6,6 +6,7 @@ require 'cmxl/transaction'
 Dir[File.join(File.dirname(__FILE__), 'cmxl/fields', '*.rb')].each { |f| require f; }
 module Cmxl
 
+  STATEMENT_SEPARATOR = "\n-"
   def self.parse(data, options={})
     options[:universal_newline] ||= true
     if options[:encoding]
@@ -14,6 +15,6 @@ module Cmxl
       data.encode!('UTF-8', options) if !options.empty?
     end
 
-    data.split("\n-").reject { |s| s.strip.empty? }.collect {|s| Cmxl::Statement.new(s.strip) }
+    data.split(STATEMENT_SEPARATOR).reject { |s| s.strip.empty? }.collect {|s| Cmxl::Statement.new(s.strip) }
   end
 end
