@@ -5,15 +5,20 @@ module Cmxl
       self.parser = /(?<transaction_code>\w{3})(?<details>(?<seperator>.).*)/
 
       def sub_fields
-        @sub_fields ||= self.data['details'].split(/#{Regexp.escape(self.data['seperator'])}(\d{2})/).reject(&:empty?).each_slice(2).to_h
+        @sub_fields ||= if self.data['details'] =~ /#{Regexp.escape(self.data['seperator'])}(\d{2})/
+            self.data['details'].split(/#{Regexp.escape(self.data['seperator'])}(\d{2})/).reject(&:empty?).each_slice(2).to_h
+          else
+            {}
+          end
       end
 
       def description
-        self.sub_fields['00']
+        self.sub_fields['00'] || self.data['details']
       end
 
       def information
-        (20..29).to_a.collect {|i| self.sub_fields[i.to_s] }.join('')
+        info = (20..29).to_a.collect {|i| self.sub_fields[i.to_s] }.join('')
+        info.empty? ? self.description : info
       end
 
       def sepa

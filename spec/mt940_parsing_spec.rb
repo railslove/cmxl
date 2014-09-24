@@ -8,6 +8,11 @@ describe 'parsing a statement' do
     it { expect(subject.closing_balance.amount_in_cents).to eql(8443704) }
     it { expect(subject.generation_date).to eql(Date.new(2013, 11, 10)) }
     it { expect(subject.transactions.count).to eql(11) }
+
+    it { expect(subject.transactions.first.description).to eql('PN5477SCHECK-NR. 0000016703074') }
+    it { expect(subject.transactions.first.information).to eql('PN5477SCHECK-NR. 0000016703074') }
+    it { expect(subject.transactions.first.sepa).to eql({}) }
+    it { expect(subject.transactions.first.bic).to eql(nil) }
   end
 
   context 'second example' do
