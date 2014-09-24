@@ -45,7 +45,7 @@ module Cmxl
     #
     # Retruns the SHA2 of the source
     def sha
-     Digest::SHA2.new.update(self.source).to_s
+      Digest::SHA2.new.update(self.source).to_s
     end
 
     def reference

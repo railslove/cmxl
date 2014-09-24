@@ -15,6 +15,10 @@ module Cmxl
       @details = Cmxl::Fields::StatementDetails.parse(line) unless line.nil?
     end
 
+    def sha
+      Digest::SHA2.new.update(self.statement_line.source).to_s
+    end
+
     def debit?
       self.statement_line.debit?
     end
@@ -78,6 +82,7 @@ module Cmxl
 
     def to_h
       {}.tap do |h|
+        h['sha'] = self.sha
         h.merge!(self.statement_line.to_h)
         h.merge!(self.details.to_h) if self.details
       end
