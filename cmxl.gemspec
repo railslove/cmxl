@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Cmxl::VERSION
   spec.authors       = ["Michael Bumann"]
   spec.email         = ["michael@railslove.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Cmxl is your friendly MT940 bank statement parser}
+  spec.description   = %q{Cmxl provides an extensible and customizable parser for the MT940 bank statement format.}
+  spec.homepage      = "http://railslove.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
