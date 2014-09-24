@@ -70,7 +70,7 @@ end
 
 Every object responds to `to_h` and let's you easily convert the data to a hash. 
 
-#### a note about encoding and file wirednesses
+#### A note about encoding and file wirednesses
 
 You probably will encounter encoding issues (hey, you are building banking applications!). 
 We try to handle encoding and format wirednesses as much as possible.  
@@ -101,10 +101,30 @@ my_field_parser.data #=> {'world' => 'hello from mt940'} - data is the accessor 
 
 ```
 
+## ToDo
+
+* collect MT940 files from different banks and use them as example for specs
+
+
 ## Contributing
+
+### Specs
+We use rspec to test Cmxl. Run `rake` to execute the whole test suite.
 
 1. Fork it ( http://github.com/railslove/cmxl/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Credits and other parsers
+
+Cmxl is inspired and borrows ideas from the `mt940_parser` by the great people at [betterplace](https://www.betterplace.org/).
+
+other parsers:
+* [betterplace/mt940_parser](https://github.com/betterplace/mt940_parser)
+* [gmitrev/mt940parser](https://github.com/gmitrev/mt940parser)
+
+------------
+
+2014 - built with love by [Railslove](http://railslove.com). We have built quite a number of Fintech products. If you need help with our application we are happy to help. 
