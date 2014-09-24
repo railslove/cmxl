@@ -82,7 +82,9 @@ module Cmxl
         h.merge!(self.details.to_h) if self.details
       end
     end
-    alias :to_hash :to_h
+    def to_hash
+      to_h
+    end
     def to_json(*args)
       to_h.to_json(*args)
     end

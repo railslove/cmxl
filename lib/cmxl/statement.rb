@@ -77,15 +77,17 @@ module Cmxl
         'reference' => reference,
         'sha' => sha,
         'generation_date' => generation_date,
-        'account_identification' => account_identification,
-        'opening_balance' => opening_balance,
-        'closing_balance' => closing_balance,
-        'available_balance' => available_balance,
-        'transactions' => transactions,
-        'fields' => fields
+        'account_identification' => account_identification.to_h,
+        'opening_balance' => opening_balance.to_h,
+        'closing_balance' => closing_balance.to_h,
+        'available_balance' => available_balance.to_h,
+        'transactions' => transactions.map(&:to_h),
+        'fields' => fields.map(&:to_h)
       }
     end
-    alias :to_hash :to_h
+    def to_hash
+      to_h
+    end
     def to_json(*args)
       to_h.to_json(*args)
     end
