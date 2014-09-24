@@ -17,7 +17,11 @@ module Cmxl
       end
 
       def sepa
-        self.information.split(/([A-Z]{4})\+/).reject(&:empty?).each_slice(2).to_h
+        if self.information =~ /([A-Z]{4})\+/
+          self.information.split(/([A-Z]{4})\+/).reject(&:empty?).each_slice(2).to_h
+        else
+          {}
+        end
       end
 
       def bic
