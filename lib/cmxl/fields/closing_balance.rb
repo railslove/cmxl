@@ -1,3 +1,4 @@
+require 'cmxl/fields/account_balance'
 module Cmxl
   module Fields
     class ClosingBalance < AccountBalance
