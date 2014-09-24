@@ -16,6 +16,8 @@ module Cmxl
     def self.parsers; @@parsers; end
 
     class << self; attr_accessor :parser; end
+    self.parser = /(?<source>.*)/ # default parser
+
     def self.tag=(tag)
       @tag = tag.to_s
       @@parsers[tag.to_s] = self
@@ -65,6 +67,14 @@ module Cmxl
       end
     rescue ArgumentError # let's simply ignore invalid dates
       date
+    end
+
+    def to_amount_in_cents(value)
+      value.gsub(/[,|\.](\d*)/) { $1.ljust(2, '0') }.to_i
+    end
+
+    def to_amount(value)
+      value.gsub(',','.').to_f
     end
 
     def method_missing(m, *value)

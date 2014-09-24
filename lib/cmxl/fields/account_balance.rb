@@ -17,7 +17,7 @@ module Cmxl
       end
 
       def amount
-        self.data['amount'].gsub(',','.').to_f * self.sign
+        to_amount(self.data['amount'])
       end
 
       def sign
@@ -25,7 +25,7 @@ module Cmxl
       end
 
       def amount_in_cents
-        self.data['amount'].gsub(',', '').gsub('.','').to_i * self.sign
+        to_amount_in_cents(self.data['amount'])
       end
 
       def to_h

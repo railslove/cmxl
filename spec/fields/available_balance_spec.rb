@@ -9,8 +9,8 @@ describe Cmxl::Fields::AvailableBalance do
   it { expect(subject).to be_debit }
   it { expect(subject.currency).to eql('EUR') }
 
-  it { expect(subject.amount).to eql(-3.66) }
-  it { expect(subject.amount_in_cents).to eql(-366) }
+  it { expect(subject.amount).to eql(3.66) }
+  it { expect(subject.amount_in_cents).to eql(366) }
   it { expect(subject.sign).to eql(-1) }
 
 end
