@@ -55,25 +55,25 @@ module Cmxl
       self.statement_line.bank_reference
     end
     def description
-      self.details.try(:description)
+      self.details.description if self.details
     end
     def information
-      self.details.try(:information)
+      self.details.information if self.details
     end
     def bic
-      self.details.try(:bic)
+      self.details.bic if self.details
     end
     def name
-      self.details.try(:name)
+      self.details.name if self.details
     end
     def iban
-      self.details.try(:iban)
+      self.details.iban if self.details
     end
     def sepa
-      self.details.try(:sepa)
+      self.details.sepa if self.details
     end
     def sub_fields
-      self.details.try(:sub_fields)
+      self.details.sub_fields if self.details
     end
 
     def to_h
