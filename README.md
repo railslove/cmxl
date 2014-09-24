@@ -131,6 +131,10 @@ other parsers:
 * [betterplace/mt940_parser](https://github.com/betterplace/mt940_parser)
 * [gmitrev/mt940parser](https://github.com/gmitrev/mt940parser)
 
+## Stats
+
+[![Build Status](https://magnum.travis-ci.com/railslove/cmxl.svg?token=e6QUckhTMdWWujkwZNBD&branch=master)](https://magnum.travis-ci.com/railslove/cmxl)
+
 ------------
 
 2014 - built with love by [Railslove](http://railslove.com). We have built quite a number of FinTech products. If you need support we are happy to help. Please contact us at team@railslove.com.
