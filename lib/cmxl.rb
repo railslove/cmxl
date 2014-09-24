@@ -5,8 +5,20 @@ require 'cmxl/statement'
 require 'cmxl/transaction'
 Dir[File.join(File.dirname(__FILE__), 'cmxl/fields', '*.rb')].each { |f| require f; }
 module Cmxl
-
   STATEMENT_SEPARATOR = "\n-"
+
+  # Public: Parse a MT940 string
+  #
+  # data - The String containing the MT940
+  # options - Hash with encoding options. Accepts the same parameters as String#encode!
+  #     It is likely that you want to provide the encoding of your MT940 String
+  #
+  # Examples
+  #
+  # Cmxl.parse(File.read('mt940.txt'), encoding: 'ISO-8859-1')
+  # Cmxl.parse(mt940_string)
+  #
+  # Returns an array of Statement objects
   def self.parse(data, options={})
     options[:universal_newline] ||= true
     if options[:encoding]

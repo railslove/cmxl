@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Cmxl::Field do
   subject { Cmxl::Field.new('D140829EUR000000000147,64') }
 
-  it { expect(Cmxl::Field.parser).to eql(/(?<source>.*)/) } # default must be set
+  it { expect(Cmxl::Field.parser).to eql(/(?<details>.*)/) } # default must be set
 
   it { expect(subject.to_amount('123.')).to eql(123.00) }
   it { expect(subject.to_amount('123.1')).to eql(123.10) }
