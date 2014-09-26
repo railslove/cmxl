@@ -5,7 +5,10 @@ require 'cmxl/statement'
 require 'cmxl/transaction'
 Dir[File.join(File.dirname(__FILE__), 'cmxl/fields', '*.rb')].each { |f| require f; }
 module Cmxl
-  STATEMENT_SEPARATOR = "\n-"
+  def self.config
+    @config
+  end
+  @config = { :statement_separator => /\n-.\n/m, :raise_line_format_errors => true }
 
   # Public: Parse a MT940 string
   #
@@ -27,6 +30,6 @@ module Cmxl
       data.encode!('UTF-8', options) if !options.empty?
     end
 
-    data.split(STATEMENT_SEPARATOR).reject { |s| s.strip.empty? }.collect {|s| Cmxl::Statement.new(s.strip) }
+    data.split(self.config[:statement_separator]).reject { |s| s.strip.empty? }.collect {|s| Cmxl::Statement.new(s.strip) }
   end
 end

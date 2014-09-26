@@ -48,7 +48,7 @@ module Cmxl
         tag, modifier, content = $1, $2, $3
         Field.parsers[tag.to_s].new(content, modifier, tag)
       else
-        raise LineFormatError, "Wrong line format: #{line.dump}"
+        raise LineFormatError, "Wrong line format: #{line.dump}" if Cmxl.config[:raise_line_format_errors]
       end
     end
 

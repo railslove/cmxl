@@ -35,7 +35,8 @@ module Cmxl
         elsif line.match(/\A:86:/) && !self.transactions.last.nil?
           self.transactions.last.details = line
         else
-          self.fields << Field.parse(line)
+          field = Field.parse(line)
+          self.fields << field unless field.nil?
         end
       end
     end
