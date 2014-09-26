@@ -21,7 +21,6 @@ Cmxl is a pure ruby parser and has no gem dependencies.
 
 ## Installation
 
-
 Add this line to your application's Gemfile:
 
     gem 'cmxl'
@@ -40,7 +39,16 @@ Simple usage:
 
 ```ruby
 
-statements = Cmxl.parse(File.read('mt940.txt')) # parses the file and returns an array of statement objects
+# Configuration:
+# Cmxl currently allows you to configure the statement divider - though the default should be good in most of the cases
+# and you can configure if line parsing errors should be raised
+
+Cmxl.config[:statement_separator] = /\n-.\n/m
+Cmxl.config[:raise_line_format_errors] = true
+
+# Statment parsing:
+
+statements = Cmxl.parse(File.read('mt940.txt'), :encoding => 'ISO-8859-1') # parses the file and returns an array of statement objects
 statements.each do |s|
   puts s.reference
   puts s.generation_date
