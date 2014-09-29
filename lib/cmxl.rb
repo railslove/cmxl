@@ -1,9 +1,12 @@
 require "cmxl/version"
 
+require "rchardet19"
+
 require 'cmxl/field'
 require 'cmxl/statement'
 require 'cmxl/transaction'
 Dir[File.join(File.dirname(__FILE__), 'cmxl/fields', '*.rb')].each { |f| require f; }
+
 module Cmxl
   def self.config
     @config
@@ -24,6 +27,11 @@ module Cmxl
   # Returns an array of Statement objects
   def self.parse(data, options={})
     options[:universal_newline] ||= true
+    # if no encoding is provided we try to guess using CharDet
+    if options[:encoding].nil? && cd = CharDet.detect(data, silent: true)
+      options[:encoding] = cd.encoding
+    end
+
     if options[:encoding]
       data.encode!('UTF-8', options.delete(:encoding), options)
     else
