@@ -1,7 +1,7 @@
 # Cmxl - your friendly ruby MT940 parser
 
-At Railslove we build a lot of banking and payment applications and work on integrating applications with banks and banking functionality. 
-Our goal is to making it easy with what sometimes seems complicated. 
+At [Railslove](http://railslove.com) we build a lot of financial applications and work on integrating applications with banks and banking functionality. 
+Our goal is to make simple solutions for what often looks complicated.
 
 Cmxl is a friendly and extendible MT940 bank statement file parser that helps your extracting data from the bank statement files. 
 
@@ -15,9 +15,9 @@ At some point in the future MT940 file should be exchanged with newer XML docume
 
 ## Reqirements
 
-Cmxl is a pure ruby parser and has no gem dependencies. 
+Cmxl is a pure ruby parser and has no dependency on native extensions. 
 
-* Ruby 1.9.3 or newer
+* Ruby 1.9.3 or newer (jruby, etc.)
 
 ## Installation
 
