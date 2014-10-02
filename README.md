@@ -76,7 +76,7 @@ end
 
 ```
 
-Every object responds to `to_h` and let's you easily convert the data to a hash. 
+Every object responds to `to_h` and let's you easily convert the data to a hash. Also every object responds to `to_json` which lets you easily represent the statements as JSON with your favorit JSON library.
 
 #### A note about encoding and file wirednesses
 
