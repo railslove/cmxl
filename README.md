@@ -48,7 +48,7 @@ Cmxl.config[:raise_line_format_errors] = true
 
 # Statment parsing:
 
-statements = Cmxl.parse(File.read('mt940.txt'), :encoding => 'ISO-8859-1') # parses the file and returns an array of statement objects
+statements = Cmxl.parse(File.read('mt940.txt'), :encoding => 'ISO-8859-1') # parses the file and returns an array of statement objects. Please note: if no encoding is given Cmxl tries to guess the encoding from the content and converts it to UTF-8. 
 statements.each do |s|
   puts s.reference
   puts s.generation_date
@@ -81,13 +81,13 @@ Every object responds to `to_h` and let's you easily convert the data to a hash.
 #### A note about encoding and file wirednesses
 
 You probably will encounter encoding issues (hey, you are building banking applications!). 
-We try to handle encoding and format wirednesses as much as possible.  
-If you have encoding issues you can pass encoding options to the `Cmxl.parse(<string>, <options hash>)` it accepts the same options as [String#encode](http://ruby-doc.org/core-2.1.3/String.html#method-i-encode)
+We try to handle encoding and format wirednesses as much as possible. If no encoding is passed we try to guess the encoding of the data and convert it to UTF8. 
+In the likely case that you encouter encoding issues you can pass encoding options to the `Cmxl.parse(<string>, <options hash>)` it accepts the same options as [String#encode](http://ruby-doc.org/core-2.1.3/String.html#method-i-encode) 
 If that fails try to motify the file before you pass it to the parser - and please create an issue.
 
 ### Custom field parsers
 
-Because a lot of banks implement the MT940 format slightly different one of the design goals of this library is to be able to customize the field parsers. 
+Because a lot of banks implement the MT940 format slightly different one of the design goals of this library is to be able to customize the individual field parsers. 
 Every line get parsed with a special parser. Here is how to write your own parser:
 
 ```ruby
@@ -122,8 +122,7 @@ If you have a file that can not be parsed please open an issue. We hope to build
 
 ## Contributing
 
-### Specs
-We use rspec to test Cmxl. Run `rake` to execute the whole test suite.
+Automated tests: We use rspec to test Cmxl. Simplt run `rake` to execute the whole test suite.
 
 1. Fork it ( http://github.com/railslove/cmxl/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
