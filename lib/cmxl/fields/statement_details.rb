@@ -34,7 +34,7 @@ module Cmxl
       end
 
       def name
-        "#{self.sub_fields['32']}#{self.sub_fields['33']}"
+        [self.sub_fields['32'], self.sub_fields['33']].compact.join(" ")
       end
 
       def iban
