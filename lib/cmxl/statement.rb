@@ -44,7 +44,7 @@ module Cmxl
     # Public: SHA2 of the provided source
     # This is an experiment of trying to identify statements. The MT940 itself might not provide a unique identifier
     #
-    # Retruns the SHA2 of the source
+    # Returns the SHA2 of the source
     def sha
       Digest::SHA2.new.update(self.source).to_s
     end
