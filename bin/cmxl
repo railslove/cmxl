@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require 'escort'
+require 'cmxl'
+
+class Cmxl2Json < ::Escort::ActionCommand::Base
+	def execute
+		require "json"
+		source = File.read(command_options[:input])
+    File.open(command_options[:output], "w+") do |f|
+      f.write JSON.pretty_generate(Cmxl.parse(source))
+    end
+		puts "done. I've converted #{command_options[:input]} to JSON and saved it to#{command_options[:output]}."
+	end
+end
+
+Escort::App.create do |app|
+  app.version Cmxl::VERSION
+  app.summary "Cmxl is your friendly MT940 bank statement parser"
+
+  app.options do |opts|
+    opts.opt :input, "Input file", :short => '-i', :long => '--input', :type => :string
+    opts.opt :output, "Output file", :short => '-o', :long => '--output', :type => :string
+    opts.opt :format, "Output format", :short => '-f', :long => '--format', :type => :string, :default => 'json'
+		opts.validate(:input, "must be a readable file") { |option| File.exist?(option) }
+		opts.validate(:output, "must be present") { |option| (!option.nil? && !(option == "")) }
+  end
+    
+  app.action do |options, arguments|
+		Cmxl2Json.new(options, arguments).execute
+	end
+end
+
