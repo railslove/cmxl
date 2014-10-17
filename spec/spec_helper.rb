@@ -3,6 +3,9 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'cmxl'
 
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 puts File.join(File.dirname(__FILE__), "support/**/*.rb").to_s
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
 
