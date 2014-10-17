@@ -146,4 +146,4 @@ other parsers:
 
 ------------
 
-2014 - built with love by [Railslove](http://railslove.com). We have built quite a number of FinTech products. If you need support we are happy to help. Please contact us at team@railslove.com.
+2014 - built with love by [Railslove](http://railslove.com) and released under the MIT-Licence. We have built quite a number of FinTech products. If you need support we are happy to help. Please contact us at team@railslove.com.
