@@ -140,7 +140,7 @@ other parsers:
 
 ## Stats
 
-[![Build Status](https://magnum.travis-ci.com/railslove/cmxl.svg?token=e6QUckhTMdWWujkwZNBD&branch=master)](https://magnum.travis-ci.com/railslove/cmxl)
+[![Build Status](https://travis-ci.org/railslove/cmxl.svg)](https://travis-ci.org/railslove/cmxl)
 
 ------------
 
