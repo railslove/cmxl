@@ -141,6 +141,8 @@ other parsers:
 ## Stats
 
 [![Build Status](https://travis-ci.org/railslove/cmxl.svg)](https://travis-ci.org/railslove/cmxl)
+[![Code Climate](https://codeclimate.com/github/railslove/cmxl/badges/gpa.svg)](https://codeclimate.com/github/railslove/cmxl)
+[![Test Coverage](https://codeclimate.com/github/railslove/cmxl/badges/coverage.svg)](https://codeclimate.com/github/railslove/cmxl)
 
 ------------
 
