@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Cmxl by railslove</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Cmxl</h1>
+        <p>your friendly MT940 bank statement parser</p>
+
+        <p class="view"><a href="https://github.com/railslove/cmxl">View the Project on GitHub <small>railslove/cmxl</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/railslove/cmxl/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/railslove/cmxl/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/railslove/cmxl">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="cmxl---your-friendly-ruby-mt940-parser" class="anchor" href="#cmxl---your-friendly-ruby-mt940-parser"><span class="octicon octicon-link"></span></a>Cmxl - your friendly ruby MT940 parser</h1>
+
+<p>At <a href="http://railslove.com">Railslove</a> we build a lot of financial applications and work on integrating applications with banks and banking functionality. 
+Our goal is to make simple solutions for what often looks complicated.</p>
+
+<p>Cmxl is a friendly and extendible MT940 bank statement file parser that helps your extracting data from the bank statement files. </p>
+
+<h2>
+<a name="what-is-mt940" class="anchor" href="#what-is-mt940"><span class="octicon octicon-link"></span></a>What is MT940?</h2>
+
+<p>MT940 (MT = Message Type) is the SWIFT-Standard for the electronic transfer of bank statement files. 
+When integrating with banks you often get MT940 files as interface. 
+For more information have a look at the different <a href="http://en.wikipedia.org/wiki/SWIFT_message_types">SWIFT message types</a></p>
+
+<p>At some point in the future MT940 file should be exchanged with newer XML documents - but banking institutions are slow so MT940 will stick around for a while.</p>
+
+<h2>
+<a name="reqirements" class="anchor" href="#reqirements"><span class="octicon octicon-link"></span></a>Reqirements</h2>
+
+<p>Cmxl is a pure ruby parser and has no dependency on native extensions. </p>
+
+<ul>
+<li>Ruby 1.9.3 or newer (jruby, etc.)</li>
+</ul>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Add this line to your application's Gemfile:</p>
+
+<pre><code>gem 'cmxl'
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre><code>$ gem install cmxl
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Simple usage: </p>
+
+<div class="highlight highlight-ruby"><pre>
+<span class="c1"># Configuration:</span>
+<span class="c1"># Cmxl currently allows you to configure the statement divider - though the default should be good in most of the cases</span>
+<span class="c1"># and you can configure if line parsing errors should be raised</span>
+
+<span class="no">Cmxl</span><span class="o">.</span><span class="n">config</span><span class="o">[</span><span class="ss">:statement_separator</span><span class="o">]</span> <span class="o">=</span> <span class="sr">/\n-.\n/m</span>
+<span class="no">Cmxl</span><span class="o">.</span><span class="n">config</span><span class="o">[</span><span class="ss">:raise_line_format_errors</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+
+<span class="c1"># Statment parsing:</span>
+
+<span class="n">statements</span> <span class="o">=</span> <span class="no">Cmxl</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">'mt940.txt'</span><span class="p">),</span> <span class="ss">:encoding</span> <span class="o">=&gt;</span> <span class="s1">'ISO-8859-1'</span><span class="p">)</span> <span class="c1"># parses the file and returns an array of statement objects. Please note: if no encoding is given Cmxl tries to guess the encoding from the content and converts it to UTF-8. </span>
+<span class="n">statements</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="n">s</span><span class="o">.</span><span class="n">reference</span>
+  <span class="nb">puts</span> <span class="n">s</span><span class="o">.</span><span class="n">generation_date</span>
+  <span class="nb">puts</span> <span class="n">s</span><span class="o">.</span><span class="n">opening_balance</span><span class="o">.</span><span class="n">amount</span>
+  <span class="nb">puts</span> <span class="n">s</span><span class="o">.</span><span class="n">closing_balance</span><span class="o">.</span><span class="n">amount</span>
+  <span class="nb">puts</span><span class="o">.</span><span class="n">sha</span> <span class="c1"># SHA of the statement source - could be used as an unique identifier</span>
+
+  <span class="n">s</span><span class="o">.</span><span class="n">transactions</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">information</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">description</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">entry_date</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">funds_code</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">credit?</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">debit?</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">sign</span> <span class="c1"># -1 if it's a debit; 1 if it's a credit</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">iban</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">sepa</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">sub_fields</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">reference</span>
+    <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">bank_reference</span>
+    <span class="c1"># ...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</pre></div>
+
+<p>Every object responds to <code>to_h</code> and let's you easily convert the data to a hash. Also every object responds to <code>to_json</code> which lets you easily represent the statements as JSON with your favorit JSON library.</p>
+
+<h4>
+<a name="a-note-about-encoding-and-file-wirednesses" class="anchor" href="#a-note-about-encoding-and-file-wirednesses"><span class="octicon octicon-link"></span></a>A note about encoding and file wirednesses</h4>
+
+<p>You probably will encounter encoding issues (hey, you are building banking applications!). 
+We try to handle encoding and format wirednesses as much as possible. If no encoding is passed we try to guess the encoding of the data and convert it to UTF8. 
+In the likely case that you encouter encoding issues you can pass encoding options to the <code>Cmxl.parse(&lt;string&gt;, &lt;options hash&gt;)</code> it accepts the same options as <a href="http://ruby-doc.org/core-2.1.3/String.html#method-i-encode">String#encode</a> 
+If that fails try to motify the file before you pass it to the parser - and please create an issue.</p>
+
+<h3>
+<a name="custom-field-parsers" class="anchor" href="#custom-field-parsers"><span class="octicon octicon-link"></span></a>Custom field parsers</h3>
+
+<p>Because a lot of banks implement the MT940 format slightly different one of the design goals of this library is to be able to customize the individual field parsers. 
+Every line get parsed with a special parser. Here is how to write your own parser:</p>
+
+<div class="highlight highlight-ruby"><pre>
+<span class="c1"># simply create a new parser class inheriting from Cmxl::Field</span>
+<span class="k">class</span> <span class="nc">MyFieldParser</span> <span class="o">&lt;</span> <span class="no">Cmxl</span><span class="o">::</span><span class="no">Field</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="mi">42</span> <span class="c1"># define which MT940 tag your parser can handle. This will automatically register your parser and overwriting existing parsers</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="sr">/(?&lt;world&gt;.*)/</span> <span class="c1"># the regex to parse the line. Use named regexp to access your match.</span>
+
+  <span class="k">def</span> <span class="nf">upcased</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">data</span><span class="o">[</span><span class="s1">'world'</span><span class="o">].</span><span class="n">upcase</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">my_field_parser</span> <span class="o">=</span> <span class="no">MyFieldParser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">":42:hello from mt940"</span><span class="p">)</span>
+<span class="n">my_field_parser</span><span class="o">.</span><span class="n">world</span> <span class="c1">#=&gt; hello from MT940</span>
+<span class="n">my_field_parser</span><span class="o">.</span><span class="n">upcased</span> <span class="c1">#=&gt; HELLO FROM MT940</span>
+<span class="n">my_field_parser</span><span class="o">.</span><span class="n">data</span> <span class="c1">#=&gt; {'world' =&gt; 'hello from mt940'} - data is the accessor to the regexp matches</span>
+
+</pre></div>
+
+<h2>
+<a name="parsing-issues---please-create-an-issue-with-your-file" class="anchor" href="#parsing-issues---please-create-an-issue-with-your-file"><span class="octicon octicon-link"></span></a>Parsing issues? - please create an issue with your file</h2>
+
+<p>The Mt940 format often looks different for the different banks and the different countries. Especially the not strict defined fields are often used for custom bank data. 
+If you have a file that can not be parsed please open an issue. We hope to build a parser that handles most of the files.</p>
+
+<h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>ToDo</h2>
+
+<ul>
+<li>collect MT940 files from different banks and use them as example for specs</li>
+</ul>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Automated tests: We use rspec to test Cmxl. Simplt run <code>rake</code> to execute the whole test suite.</p>
+
+<ol>
+<li>Fork it ( <a href="http://github.com/railslove/cmxl/fork">http://github.com/railslove/cmxl/fork</a> )</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+
+<h2>
+<a name="credits-and-other-parsers" class="anchor" href="#credits-and-other-parsers"><span class="octicon octicon-link"></span></a>Credits and other parsers</h2>
+
+<p>Cmxl is inspired and borrows ideas from the <code>mt940_parser</code> by the great people at <a href="https://www.betterplace.org/">betterplace</a>.</p>
+
+<p>other parsers:</p>
+
+<ul>
+<li><a href="https://github.com/betterplace/mt940_parser">betterplace/mt940_parser</a></li>
+<li><a href="https://github.com/gmitrev/mt940parser">gmitrev/mt940parser</a></li>
+</ul>
+
+<h2>
+<a name="stats" class="anchor" href="#stats"><span class="octicon octicon-link"></span></a>Stats</h2>
+
+<p><a href="https://travis-ci.org/railslove/cmxl"><img src="https://travis-ci.org/railslove/cmxl.svg" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/railslove/cmxl"><img src="https://codeclimate.com/github/railslove/cmxl/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/railslove/cmxl"><img src="https://codeclimate.com/github/railslove/cmxl/badges/coverage.svg" alt="Test Coverage"></a>
+<a href="http://badge.fury.io/rb/cmxl"><img src="https://badge.fury.io/rb/cmxl.svg" alt="Gem Version"></a></p>
+
+<hr>
+
+<p>2014 - built with love by <a href="http://railslove.com">Railslove</a> and released under the MIT-Licence. We have built quite a number of FinTech products. If you need support we are happy to help. Please contact us at <a href="mailto:team@railslove.com">team@railslove.com</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/railslove">railslove</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-3621621-23");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
