@@ -54,7 +54,7 @@ statements.each do |s|
   puts s.generation_date
   puts s.opening_balance.amount
   puts s.closing_balance.amount
-  puts.sha # SHA of the statement source - could be used as an unique identifier
+  puts s.sha # SHA of the statement source - could be used as an unique identifier
   
   s.transactions.each do |t|
     puts t.information
