@@ -145,6 +145,14 @@ other parsers:
 [![Test Coverage](https://codeclimate.com/github/railslove/cmxl/badges/coverage.svg)](https://codeclimate.com/github/railslove/cmxl)
 [![Gem Version](https://badge.fury.io/rb/cmxl.svg)](http://badge.fury.io/rb/cmxl)
 
+## Looking for other Banking and EBICS tools?
+
+Maybe these are also interesting for you.
+
+* [EPICS: Open Source SEPA EBICS client](https://railslove.github.io/epics/) full implementation to manage all the banking activities like direct debits, credits, etc. (SEPA Lastschrift, Überweisungen, etc.)
+* [EBICS::Box: out of the box solution to automate banking activities](http://www.railslove.com/ebics-box) - The missing API for your bank
+
+
 ------------
 
 2014 - built with love by [Railslove](http://railslove.com) and released under the MIT-Licence. We have built quite a number of FinTech products. If you need support we are happy to help. Please contact us at team@railslove.com.
