@@ -120,9 +120,16 @@ If you have a file that can not be parsed please open an issue. We hope to build
 * collect MT940 files from different banks and use them as example for specs
 
 
+## Looking for other Banking and EBICS tools?
+
+Maybe these are also interesting for you.
+
+* [EPICS: Open Source SEPA EBICS client](https://railslove.github.io/epics/) full implementation to manage all the banking activities like direct debits, credits, etc. (SEPA Lastschrift, Überweisungen, etc.)
+* [EBICS::Box: out of the box solution to automate banking activities](http://www.railslove.com/ebics-box) - The missing API for your bank
+
 ## Contributing
 
-Automated tests: We use rspec to test Cmxl. Simplt run `rake` to execute the whole test suite.
+Automated tests: We use rspec to test Cmxl. Simply run `rake` to execute the whole test suite.
 
 1. Fork it ( http://github.com/railslove/cmxl/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
@@ -138,20 +145,13 @@ other parsers:
 * [betterplace/mt940_parser](https://github.com/betterplace/mt940_parser)
 * [gmitrev/mt940parser](https://github.com/gmitrev/mt940parser)
 
+
 ## Stats
 
 [![Build Status](https://travis-ci.org/railslove/cmxl.svg)](https://travis-ci.org/railslove/cmxl)
 [![Code Climate](https://codeclimate.com/github/railslove/cmxl/badges/gpa.svg)](https://codeclimate.com/github/railslove/cmxl)
 [![Test Coverage](https://codeclimate.com/github/railslove/cmxl/badges/coverage.svg)](https://codeclimate.com/github/railslove/cmxl)
 [![Gem Version](https://badge.fury.io/rb/cmxl.svg)](http://badge.fury.io/rb/cmxl)
-
-## Looking for other Banking and EBICS tools?
-
-Maybe these are also interesting for you.
-
-* [EPICS: Open Source SEPA EBICS client](https://railslove.github.io/epics/) full implementation to manage all the banking activities like direct debits, credits, etc. (SEPA Lastschrift, Überweisungen, etc.)
-* [EBICS::Box: out of the box solution to automate banking activities](http://www.railslove.com/ebics-box) - The missing API for your bank
-
 
 ------------
 
