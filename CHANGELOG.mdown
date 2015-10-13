@@ -1,0 +1,3 @@
+# 0.1.2
+  
+  * [BUGFIX] fixed the statement details parser. It failed in case of empty values in the details
