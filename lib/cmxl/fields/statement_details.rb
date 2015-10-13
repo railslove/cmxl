@@ -6,7 +6,7 @@ module Cmxl
 
       def sub_fields
         @sub_fields ||= if self.data['details'] =~ /#{Regexp.escape(self.data['seperator'])}(\d{2})/
-            Hash[self.data['details'].scan(/#{Regexp.escape(self.data['seperator'])}(\d{2})([^?]*)/)]
+            Hash[self.data['details'].scan(/#{Regexp.escape(self.data['seperator'])}(\d{2})([^#{Regexp.escape(self.data['seperator'])}]*)/)]
           else
             {}
           end
