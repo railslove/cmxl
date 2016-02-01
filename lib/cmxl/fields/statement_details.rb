@@ -23,7 +23,7 @@ module Cmxl
 
       def sepa
         if self.information =~ /([A-Z]{4})\+/
-          Hash[*self.information.split(/([A-Z]{4})\+/).reject(&:empty?)]
+          Hash[*self.information.split(/([A-Z]{4})\+/)[1..-1]]
         else
           {}
         end
