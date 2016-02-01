@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/railslove/cmxl.svg?branch=master)](https://travis-ci.org/railslove/cmxl)
+
 # Cmxl - your friendly ruby MT940 parser
 
 At [Railslove](http://railslove.com) we build a lot of financial applications and work on integrating applications with banks and banking functionality. 
