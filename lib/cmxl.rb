@@ -27,6 +27,7 @@ module Cmxl
   # Returns an array of Statement objects
   def self.parse(data, options={})
     options[:universal_newline] ||= true
+    options[:statement_separator] ||= self.config[:statement_separator]
     # if no encoding is provided we try to guess using CharDet
     if options[:encoding].nil? && cd = CharDet.detect(data, silent: true)
       options[:encoding] = cd.encoding
@@ -38,6 +39,6 @@ module Cmxl
       data.encode!('UTF-8', options) if !options.empty?
     end
 
-    data.split(self.config[:statement_separator]).reject { |s| s.strip.empty? }.collect {|s| Cmxl::Statement.new(s.strip) }
+    data.split(options[:statement_separator]).reject { |s| s.strip.empty? }.collect {|s| Cmxl::Statement.new(s.strip) }
   end
 end
