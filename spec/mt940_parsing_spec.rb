@@ -1,11 +1,10 @@
 # encoding: utf-8
-
 require 'spec_helper'
 
 describe 'parsing a statement' do
-
   context 'ISO 8859-1' do
     subject { Cmxl.parse(mt940_file('mt940-iso8859-1'))[0] }
+
     it { expect(subject.reference).to eql('1234567') }
     it { expect(subject.opening_balance.amount_in_cents).to eql(218795) }
     it { expect(subject.closing_balance.amount_in_cents).to eql(438795) }
@@ -17,12 +16,12 @@ describe 'parsing a statement' do
 
   context 'first example' do
     subject { Cmxl.parse(mt940_file(), :encoding => 'ISO-8859-1', :universal_newline => true)[0] }
+
     it { expect(subject.reference).to eql('131110') }
     it { expect(subject.opening_balance.amount_in_cents).to eql(8434974) }
     it { expect(subject.closing_balance.amount_in_cents).to eql(8443704) }
     it { expect(subject.generation_date).to eql(Date.new(2013, 11, 10)) }
     it { expect(subject.transactions.count).to eql(11) }
-
     it { expect(subject.transactions.first.description).to eql('PN5477SCHECK-NR. 0000016703074') }
     it { expect(subject.transactions.first.information).to eql('PN5477SCHECK-NR. 0000016703074') }
     it { expect(subject.transactions.first.sepa).to eql({}) }
@@ -31,6 +30,7 @@ describe 'parsing a statement' do
 
   context 'second example' do
     subject { Cmxl.parse(mt940_file(), :encoding => 'ISO-8859-1', :universal_newline => true)[1] }
+
     it { expect(subject.reference).to eql('1234567') }
     it { expect(subject.opening_balance.amount_in_cents).to eql(218795) }
     it { expect(subject.closing_balance.amount_in_cents).to eql(438795) }
@@ -44,10 +44,9 @@ describe 'parsing a statement' do
     it { expect(subject.transactions.first.iban).to eql('234567') }
   end
 
-
-
   context 'third example' do
     subject { Cmxl.parse(mt940_file(), :encoding => 'ISO-8859-1', :universal_newline => true)[2] }
+
     it { expect(subject.reference).to eql('TELEWIZORY S.A.') }
     it { expect(subject.opening_balance.amount_in_cents).to eql(4000000) }
     it { expect(subject.closing_balance.amount_in_cents).to eql(5004000) }
@@ -59,7 +58,21 @@ describe 'parsing a statement' do
     it { expect(subject.transactions.first.bic).to eql('10600076') }
     it { expect(subject.transactions.first.iban).to eql('PL08106000760000777777777777') }
     it { expect(subject.transactions.first.sepa).to eql({}) }
-end
+  end
 
+  context 'statement separator as used by most banks' do
+    subject { Cmxl.parse(mt940_file('mt940')) }
 
+    it 'detects all statements by default' do
+      expect(subject.size).to eq(3)
+    end
+  end
+
+  context 'statement separator as used by Deutsche Bank' do
+    subject { Cmxl.parse(mt940_file('mt940-deutsche_bank')) }
+
+    it 'detects all statements by default' do
+      expect(subject.size).to eq(3)
+    end
+  end
 end
