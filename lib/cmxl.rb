@@ -10,7 +10,7 @@ module Cmxl
   def self.config
     @config
   end
-  @config = { :statement_separator => /\n-.?\n/m, :raise_line_format_errors => true }
+  @config = { :statement_separator => /\n-\s*\n/m, :raise_line_format_errors => true }
 
   # Public: Parse a MT940 string
   #
