@@ -65,6 +65,10 @@ module Cmxl
       end
     end
 
+    def add_meta_data(content)
+      # Override if the field supports it
+    end
+
     def to_h
       self.data.merge('tag' => self.tag)
     end

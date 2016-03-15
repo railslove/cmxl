@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Cmxl::Fields::StatementLine do
+describe Cmxl::Fields::Transaction do
 
-  subject { Cmxl::Fields::StatementLine.parse(fixture_line(:statement_line)) }
+  subject { Cmxl::Fields::Transaction.parse(fixture_line(:statement_line)) }
 
   it { expect(subject.date).to eql(Date.new(2014,9,1)) }
   it { expect(subject.entry_date).to eql(Date.new(2014,9,2)) }
