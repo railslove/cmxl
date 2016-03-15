@@ -4,7 +4,6 @@ require "rchardet19"
 
 require 'cmxl/field'
 require 'cmxl/statement'
-require 'cmxl/transaction'
 Dir[File.join(File.dirname(__FILE__), 'cmxl/fields', '*.rb')].each { |f| require f; }
 
 module Cmxl

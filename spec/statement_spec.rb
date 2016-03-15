@@ -1,17 +1,17 @@
 require 'spec_helper'
 
-describe Cmxl::Transaction do
+describe Cmxl do
 
   context 'with details' do
-    subject { Cmxl::Transaction.new( fixture_line(:statement_line), fixture_line(:statement_details) ) }
+    subject { Cmxl.parse( mt940_file('statement-details-mt940') ).first.transactions.first }
+
     it { expect(subject).to be_debit }
     it { expect(subject).to_not be_credit }
     it { expect(subject.funds_code).to eql('D') }
-    it { expect(subject.date).to eql(Date.new(2014,9,1))}
-    it { expect(subject.entry_date).to eql(Date.new(2014,9,2))}
-    it { expect(subject.amount).to eql(1.62)}
-    it { expect(subject.statement_line.amount).to eql(1.62)}
-    it { expect(subject.amount_in_cents).to eql(162)}
+    it { expect(subject.date).to eql(Date.new(2014,9,1)) }
+    it { expect(subject.entry_date).to eql(Date.new(2014,9,2)) }
+    it { expect(subject.amount).to eql(1.62) }
+    it { expect(subject.amount_in_cents).to eql(162) }
     it { expect(subject.to_h).to eql(
       {
         "date" => Date.new(2014,9,1),
@@ -63,14 +63,42 @@ describe Cmxl::Transaction do
   end
 
   context 'without details' do
-    subject { Cmxl::Transaction.new( fixture_line(:statement_line) ) }
+    subject { Cmxl.parse( mt940_file('statement-mt940') ).first.transactions.first }
+
     it { expect(subject).to be_debit }
     it { expect(subject).to_not be_credit }
     it { expect(subject.date).to eql(Date.new(2014,9,1))}
-    it { expect(subject.entry_date).to eql(Date.new(2014,9,2))}
-    it { expect(subject.amount).to eql(1.62)}
-    it { expect(subject.amount_in_cents).to eql(162)}
-    it { expect(subject.to_h).to eql({"date" => Date.new(2014,9,1),
-        "sha" => "3c5e65aa3d3878b06b58b6f1ae2f3693004dfb04e3ab7119a1c1244e612293da", "entry_date"=>Date.new(2014,9,2), "funds_code"=>"D", "currency_letter"=>"R", "amount"=>1.62, "swift_code"=>"NTRF", "reference"=>"0000549855700010", "bank_reference"=>"025498557/000001", "amount_in_cents"=>162, "sign"=>-1, "debit"=>true, "credit"=>false}) }
+    it { expect(subject.entry_date).to eql(Date.new(2014,9,2)) }
+    it { expect(subject.amount).to eql(1.62) }
+    it { expect(subject.amount_in_cents).to eql(162) }
+    it 'does not include any details in its hash representation' do
+      expect(subject.to_h).to eql({
+        "date" => Date.new(2014,9,1),
+        "sha" => "3c5e65aa3d3878b06b58b6f1ae2f3693004dfb04e3ab7119a1c1244e612293da",
+        "entry_date"=>Date.new(2014,9,2),
+        "funds_code" => "D",
+        "currency_letter" => "R",
+        "amount" => 1.62,
+        "swift_code" => "NTRF",
+        "reference" => "0000549855700010",
+        "bank_reference" => "025498557/000001",
+        "amount_in_cents" => 162,
+        "sign" => -1,
+        "debit" => true,
+        "credit" => false
+      })
+    end
+  end
+
+  describe 'statement with detailed end balance' do
+    subject { Cmxl.parse( mt940_file('mt940-with-detailed-end-balance') ).first.transactions.first }
+
+    it 'includes correct iban' do
+      expect(subject.iban).to eq('234567')
+    end
+
+    it 'includes correct bic' do
+      expect(subject.bic).to eq('10020030')
+    end
   end
 end

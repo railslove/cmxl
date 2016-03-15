@@ -1,7 +1,7 @@
 require 'digest/sha2'
 module Cmxl
   class Statement
-    attr_accessor :source, :collection, :transactions, :fields, :lines
+    attr_accessor :source, :collection, :fields, :lines
 
     # Public: Initiate a new Statement and parse a provided single statement string
     # It directly parses the source and initiates file and transaction objects.
@@ -13,8 +13,11 @@ module Cmxl
       self.source = source
       self.fields = []
       self.lines = []
-      self.transactions = []
       self.parse!
+    end
+
+    def transactions
+      self.fields.select { |field| field.kind_of?(Fields::Transaction) }
     end
 
     # Internal: Parse a single MT940 statement and extract the line data
@@ -28,17 +31,33 @@ module Cmxl
           self.lines.last << line.strip
         end
       end
-      # Now we check each line for its content ans structure it for further use. If it is part of a transaction we initate or update a transaction else we parse the field and add it to the fields collection
-      self.lines.each do |line|
-        if line.match(/\A:61:/)
-          self.transactions << Cmxl::Transaction.new(line)
-        elsif line.match(/\A:86:/) && !self.transactions.last.nil?
-          self.transactions.last.details = line
+
+      self.fields = []
+      lines.each do |line|
+        if line.match(/\A:86:/)
+          if field = fields.last
+            field.add_meta_data(line)
+          end
         else
           field = Field.parse(line)
           self.fields << field unless field.nil?
         end
       end
+
+      # puts "Fixed Fields"
+      # puts fields.inspect
+      #
+      # # Now we check each line for its content ans structure it for further use. If it is part of a transaction we initate or update a transaction else we parse the field and add it to the fields collection
+      # self.lines.each do |line|
+      #   if line.match(/\A:61:/)
+      #     self.transactions << Cmxl::Transaction.new(line)
+      #   elsif line.match(/\A:86:/) && !self.transactions.last.nil?
+      #     self.transactions.last.details = line
+      #   else
+      #     field = Field.parse(line)
+      #     self.fields << field unless field.nil?
+      #   end
+      # end
     end
 
     # Public: SHA2 of the provided source
