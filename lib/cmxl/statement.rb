@@ -92,6 +92,10 @@ module Cmxl
       self.field(64)
     end
 
+    def legal_sequence_number
+      self.field(28).source
+    end
+
     def to_h
       {
         'reference' => reference,
