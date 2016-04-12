@@ -84,8 +84,16 @@ module Cmxl
       self.field(60, 'F')
     end
 
+    def opening_or_intermediary_balance
+      self.field(60)
+    end
+
     def closing_balance
       self.field(62, 'F')
+    end
+
+    def closing_or_intermediary_balance
+      self.field(62)
     end
 
     def available_balance
