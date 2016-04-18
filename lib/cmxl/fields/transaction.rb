@@ -80,7 +80,7 @@ module Cmxl
           'reference' => reference,
           'bank_reference' => bank_reference,
           'currency_letter' => currency_letter
-        }.merge(details.to_h)
+        }.merge(details ? details.to_h : {})
       end
 
       def to_hash
