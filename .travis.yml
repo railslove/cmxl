@@ -7,6 +7,8 @@ rvm:
   - 2.2.4
   - 2.3.0
   - jruby
+after_success:
+  - bundle exec codeclimate-test-reporter
 addons:
   code_climate:
     repo_token: 149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7
