@@ -1,3 +1,8 @@
+# 0.2.0
+  * added several balance related accessors (#7)
+  * configuration option for `statement separator` (#5)
+  * improvement for general compatibility
+
 # 0.1.3
 
   * [BUGFIX] fixed the statement details parser. It failed in case of empty values in the SEPA details
