@@ -7,6 +7,9 @@ rvm:
   - 2.2.4
   - 2.3.0
   - jruby
+matrix:
+  allow_failures:
+    - rvm: 1.9.3
 after_success:
   - bundle exec codeclimate-test-reporter
 addons:
