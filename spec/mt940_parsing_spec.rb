@@ -75,4 +75,16 @@ describe 'parsing a statement' do
       expect(subject.size).to eq(3)
     end
   end
+
+  describe 'MT940 with headers' do
+    before { Cmxl.config[:strip_headers] = true }
+    after { Cmxl.config[:strip_headers] = false }
+    subject { Cmxl.parse(mt940_file('mt940-headers')) }
+
+    it { expect(subject.count).to eql(1) }
+
+    it 'parses the statement without problems' do
+      expect(subject[0].transactions.count).to eql(1)
+    end
+  end
 end

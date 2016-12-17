@@ -42,11 +42,16 @@ Simple usage:
 ```ruby
 
 # Configuration:
-# Cmxl currently allows you to configure the statement divider - though the default should be good in most of the cases
-# and you can configure if line parsing errors should be raised
 
+# statement divider regex to split the individual statements in one file - the default is standard and should be good for most files
 Cmxl.config[:statement_separator] = /\n-.\n/m
+
+# do you want an error to be raised when a line can not be parsed? default is true
 Cmxl.config[:raise_line_format_errors] = true
+
+# try to stip the SWIFT header data. This strips everything until the actual first MT940 field. (if parsing fails try this!)
+Cmxl.config[:strip_headers] = true
+
 
 # Statment parsing:
 
@@ -87,6 +92,16 @@ We try to handle encoding and format wirednesses as much as possible. If no enco
 In the likely case that you encouter encoding issues you can pass encoding options to the `Cmxl.parse(<string>, <options hash>)` it accepts the same options as [String#encode](http://ruby-doc.org/core-2.1.3/String.html#method-i-encode) 
 If that fails try to motify the file before you pass it to the parser - and please create an issue.
 
+### MT940 SWIFT header data
+
+Cmxl currently does not support parsing of the SWIFT headers (like {1:F01AXISINBBA ....) 
+If your file comes with these headers try the `strip_headers` configuration option to strip data execpt the actual MT940 fields.
+
+```ruby
+Cmxl.config[:strip_headers] = true
+Cmxl.parse(...)
+```
+
 ### Custom field parsers
 
 Because a lot of banks implement the MT940 format slightly different one of the design goals of this library is to be able to customize the individual field parsers. 
@@ -120,6 +135,8 @@ If you have a file that can not be parsed please open an issue. We hope to build
 ## ToDo
 
 * collect MT940 files from different banks and use them as example for specs
+* support for Mt942
+* better header data handling
 
 
 ## Looking for other Banking and EBICS tools?

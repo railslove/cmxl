@@ -10,7 +10,11 @@ module Cmxl
   def self.config
     @config
   end
-  @config = { :statement_separator => /\n-\s*\n/m, :raise_line_format_errors => true }
+  @config = {
+    :statement_separator => /\n-\s*\n/m,
+    :raise_line_format_errors => true,
+    :strip_headers => false
+  }
 
   # Public: Parse a MT940 string
   #
@@ -25,7 +29,6 @@ module Cmxl
   #
   # Returns an array of Statement objects
   def self.parse(data, options={})
-    options[:universal_newline] ||= true
     options[:statement_separator] ||= self.config[:statement_separator]
     # if no encoding is provided we try to guess using CharDet
     if options[:encoding].nil? && cd = CharDet.detect(data, silent: true)
