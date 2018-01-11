@@ -23,7 +23,9 @@ module Cmxl
 
       def sepa
         if self.information =~ /([A-Z]{4})\+/
-          Hash[*self.information.split(/([A-Z]{4})\+/)[1..-1]]
+          Hash[
+            *self.information.split(/([A-Z]{4})\+/)[1..-1].tap {|info| info << "" if info.size.odd? }
+          ]
         else
           {}
         end

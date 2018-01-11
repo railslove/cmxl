@@ -73,4 +73,12 @@ describe Cmxl::Fields::StatementDetails do
     it { expect(subject.to_hash).to eql(subject.to_h) }
   end
 
+  describe 'information parsing with empty fields on the end' do
+    subject { Cmxl::Fields::StatementDetails.parse(fixture_line(:statement_details_empty_fields)) }
+
+    it { expect(subject.sepa).to eql({
+          "EREF" => "S1001675",
+          "SVWZ" => ""
+    }) }
+  end
 end
