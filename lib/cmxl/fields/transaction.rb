@@ -37,8 +37,15 @@ module Cmxl
       def date
         to_date(self.data['date'])
       end
+
       def entry_date
-        to_date(self.data['entry_date'], self.date.year) if self.data['entry_date'] && self.date
+        if self.data['entry_date'] && self.date
+          if date.month == 1 && date.month < to_date(self.data['entry_date'], self.date.year).month
+            to_date(self.data['entry_date'], self.date.year - 1)
+          else
+            to_date(self.data['entry_date'], self.date.year)
+          end
+        end
       end
 
       # Fields from details

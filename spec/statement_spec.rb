@@ -90,6 +90,18 @@ describe Cmxl do
     end
   end
 
+  describe 'statement issued over a years boudary' do
+    subject { Cmxl.parse( mt940_file('statement-mt940') ).first.transactions.last }
+
+    it 'includes correct entry date' do
+      expect(subject.entry_date).to eq(Date.new(2013,12,29))
+    end
+
+    it 'includes correct date' do
+      expect(subject.date).to eq(Date.new(2014,01,04))
+    end
+  end
+
   describe 'statement with detailed end balance' do
     subject { Cmxl.parse( mt940_file('mt940-with-detailed-end-balance') ).first.transactions.first }
 
