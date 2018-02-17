@@ -1,3 +1,9 @@
+# 0.2.1
+  * addressing an bug that occoured for transactions submitted end of
+    but were fetched in the new year -> those ended up with the wrong year
+    on the entry date
+  * MT942 support for field 13
+
 # 0.2.0
   * added several balance related accessors (#7)
   * configuration option for `statement separator` (#5)
