@@ -2,7 +2,7 @@ module Cmxl
   module Fields
     class Transaction < Field
       self.tag = 61
-      self.parser = /^(?<date>\d{6})(?<entry_date>\d{4})?(?<funds_code>R?[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F).{3})(?<reference>NONREF|.{0,16})(?:$|\/\/)(?<bank_reference>.*)/i
+      self.parser = /^(?<date>\d{6})(?<entry_date>\d{4})?(?<is_storno>R?)(?<funds_code>[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F).{3})(?<reference>NONREF|.{0,16})(?:$|\/\/)(?<bank_reference>.*)/i
 
       attr_accessor :details
 
@@ -15,19 +15,31 @@ module Cmxl
       end
 
       def credit?
-        %w[C RC].include?(self.data['funds_code'].to_s.upcase)
+        self.data['funds_code'].to_s.upcase == 'C'
       end
 
       def debit?
-        %w[D RD].include?(self.data['funds_code'].to_s.upcase)
+        self.data['funds_code'].to_s.upcase == 'D'
       end
 
       def storno_credit?
-        self.data['funds_code'].to_s.upcase == 'RC'
+        credit? && is_storno?
       end
 
       def storno_debit?
-        self.data['funds_code'].to_s.upcase == 'RD'
+        debit? && is_storno?
+      end
+
+      def is_storno?
+        !storno_flag.empty?
+      end
+
+      def funds_code
+        [storno_flag, super].join
+      end
+
+      def storno_flag
+        data['is_storno']
       end
 
       def sign
