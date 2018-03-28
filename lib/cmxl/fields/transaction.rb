@@ -15,11 +15,11 @@ module Cmxl
       end
 
       def credit?
-        self.data['funds_code'].to_s.upcase == 'C'
+        data['funds_code'].to_s.casecmp('C').zero?
       end
 
       def debit?
-        self.data['funds_code'].to_s.upcase == 'D'
+        data['funds_code'].to_s.casecmp('D').zero?
       end
 
       def storno_credit?
@@ -35,7 +35,7 @@ module Cmxl
       end
 
       def funds_code
-        [storno_flag, super].join
+        data.values_at('storno_flag', 'funds_code').join
       end
 
       def storno_flag
@@ -43,27 +43,27 @@ module Cmxl
       end
 
       def sign
-        self.credit? ? 1 : -1
+        credit? ? 1 : -1
       end
 
       def amount
-        to_amount(self.data['amount'])
+        to_amount(data['amount'])
       end
 
       def amount_in_cents
-        to_amount_in_cents(self.data['amount'])
+        to_amount_in_cents(data['amount'])
       end
 
       def date
-        to_date(self.data['date'])
+        to_date(data['date'])
       end
 
       def entry_date
-        if self.data['entry_date'] && self.date
-          if date.month == 1 && date.month < to_date(self.data['entry_date'], self.date.year).month
-            to_date(self.data['entry_date'], self.date.year - 1)
+        if data['entry_date'] && date
+          if date.month == 1 && date.month < to_date(data['entry_date'], date.year).month
+            to_date(data['entry_date'], date.year - 1)
           else
-            to_date(self.data['entry_date'], self.date.year)
+            to_date(data['entry_date'], date.year)
           end
         end
       end
