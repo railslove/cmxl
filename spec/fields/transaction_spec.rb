@@ -18,8 +18,7 @@ describe Cmxl::Fields::Transaction do
     it { expect(debit_transaction.bank_reference).to eql('025498557/000001') }
     it { expect(debit_transaction).to_not be_credit }
     it { expect(debit_transaction).to be_debit }
-    it { expect(debit_transaction).not_to be_storno_debit }
-    it { expect(debit_transaction).not_to be_storno_credit }
+    it { expect(debit_transaction).not_to be_storno }
     it { expect(debit_transaction.sign).to eql(-1) }
   end
 
@@ -36,7 +35,7 @@ describe Cmxl::Fields::Transaction do
     it { expect(storno_credit_transaction).to be_credit }
     it { expect(storno_credit_transaction).not_to be_debit }
     it { expect(storno_credit_transaction).not_to be_storno_debit }
-    it { expect(storno_credit_transaction).to be_storno_credit }
+    it { expect(storno_credit_transaction).to be_storno }
     it { expect(storno_credit_transaction.sign).to eql(1) }
   end
 end

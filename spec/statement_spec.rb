@@ -27,8 +27,7 @@ describe Cmxl do
         "sign" => -1,
         "debit" => true,
         "credit" => false,
-        "storno_debit" => false,
-        "storno_credit" => false,
+        "storno" => false,
         "bic" => "HYVEDEMMXXX",
         "iban" => "HUkkbbbsssskcccccccccccccccx",
         "name" => "Peter Pan",
@@ -88,8 +87,7 @@ describe Cmxl do
         "sign" => -1,
         "debit" => true,
         "credit" => false,
-        "storno_debit" => false,
-        "storno_credit" => false
+        "storno" => false
       })
     end
   end

@@ -2,7 +2,7 @@ module Cmxl
   module Fields
     class Transaction < Field
       self.tag = 61
-      self.parser = /^(?<date>\d{6})(?<entry_date>\d{4})?(?<is_storno>R?)(?<funds_code>[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F).{3})(?<reference>NONREF|.{0,16})(?:$|\/\/)(?<bank_reference>.*)/i
+      self.parser = /^(?<date>\d{6})(?<entry_date>\d{4})?(?<storno_flag>R?)(?<funds_code>[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F).{3})(?<reference>NONREF|.{0,16})(?:$|\/\/)(?<bank_reference>.*)/i
 
       attr_accessor :details
 
@@ -23,14 +23,14 @@ module Cmxl
       end
 
       def storno_credit?
-        credit? && is_storno?
+        credit? && storno?
       end
 
       def storno_debit?
-        debit? && is_storno?
+        debit? && storno?
       end
 
-      def is_storno?
+      def storno?
         !storno_flag.empty?
       end
 
@@ -39,7 +39,7 @@ module Cmxl
       end
 
       def storno_flag
-        data['is_storno']
+        data['storno_flag']
       end
 
       def sign
@@ -102,8 +102,7 @@ module Cmxl
           'sign' => sign,
           'debit' => debit?,
           'credit' => credit?,
-          'storno_credit' => storno_credit?,
-          'storno_debit' => storno_debit?,
+          'storno' => storno?,
           'funds_code' => funds_code,
           'swift_code' => swift_code,
           'reference' => reference,
