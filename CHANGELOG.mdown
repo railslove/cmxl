@@ -1,3 +1,6 @@
+# 0.2.2
+  * [FEATURE] adds support for storno transactions (#14)
+
 # 0.2.1
   * addressing an bug that occoured for transactions submitted end of
     but were fetched in the new year -> those ended up with the wrong year
