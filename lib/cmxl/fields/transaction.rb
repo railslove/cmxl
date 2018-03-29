@@ -2,7 +2,7 @@ module Cmxl
   module Fields
     class Transaction < Field
       self.tag = 61
-      self.parser = /^(?<date>\d{6})(?<entry_date>\d{4})?(?<funds_code>[a-zA-Z])(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F).{3})(?<reference>NONREF|.{0,16})(?:$|\/\/)(?<bank_reference>.*)/i
+      self.parser = /^(?<date>\d{6})(?<entry_date>\d{4})?(?<storno_flag>R?)(?<funds_code>[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F).{3})(?<reference>NONREF|.{0,16})(?:$|\/\/)(?<bank_reference>.*)/i
 
       attr_accessor :details
 
@@ -15,35 +15,55 @@ module Cmxl
       end
 
       def credit?
-        self.data['funds_code'].to_s.upcase == 'C'
+        data['funds_code'].to_s.casecmp('C').zero?
       end
 
       def debit?
-        !credit?
+        data['funds_code'].to_s.casecmp('D').zero?
+      end
+
+      def storno_credit?
+        credit? && storno?
+      end
+
+      def storno_debit?
+        debit? && storno?
+      end
+
+      def storno?
+        !storno_flag.empty?
+      end
+
+      def funds_code
+        data.values_at('storno_flag', 'funds_code').join
+      end
+
+      def storno_flag
+        data['storno_flag']
       end
 
       def sign
-        self.credit? ? 1 : -1
+        credit? ? 1 : -1
       end
 
       def amount
-        to_amount(self.data['amount'])
+        to_amount(data['amount'])
       end
 
       def amount_in_cents
-        to_amount_in_cents(self.data['amount'])
+        to_amount_in_cents(data['amount'])
       end
 
       def date
-        to_date(self.data['date'])
+        to_date(data['date'])
       end
 
       def entry_date
-        if self.data['entry_date'] && self.date
-          if date.month == 1 && date.month < to_date(self.data['entry_date'], self.date.year).month
-            to_date(self.data['entry_date'], self.date.year - 1)
+        if data['entry_date'] && date
+          if date.month == 1 && date.month < to_date(data['entry_date'], date.year).month
+            to_date(data['entry_date'], date.year - 1)
           else
-            to_date(self.data['entry_date'], self.date.year)
+            to_date(data['entry_date'], date.year)
           end
         end
       end
@@ -82,6 +102,7 @@ module Cmxl
           'sign' => sign,
           'debit' => debit?,
           'credit' => credit?,
+          'storno' => storno?,
           'funds_code' => funds_code,
           'swift_code' => swift_code,
           'reference' => reference,

@@ -1,19 +1,41 @@
 require 'spec_helper'
 
 describe Cmxl::Fields::Transaction do
+  subject(:debit_transaction) { Cmxl::Fields::Transaction.parse(fixture.first) }
+  subject(:storno_credit_transaction) { Cmxl::Fields::Transaction.parse(fixture.last) }
 
-  subject { Cmxl::Fields::Transaction.parse(fixture_line(:statement_line)) }
+  let(:fixture) { fixture_line(:statement_line).split(/\n/) }
 
-  it { expect(subject.date).to eql(Date.new(2014,9,1)) }
-  it { expect(subject.entry_date).to eql(Date.new(2014,9,2)) }
-  it { expect(subject.funds_code).to eql('D') }
-  it { expect(subject.currency_letter).to eql('R') }
-  it { expect(subject.amount).to eql(1.62) }
-  it { expect(subject.amount_in_cents).to eql(162) }
-  it { expect(subject.swift_code).to eql('NTRF') }
-  it { expect(subject.reference).to eql('0000549855700010') }
-  it { expect(subject.bank_reference).to eql('025498557/000001') }
-  it { expect(subject).to_not be_credit }
-  it { expect(subject).to be_debit }
-  it { expect(subject.sign).to eql(-1) }
+  context 'debit' do
+    it { expect(debit_transaction.date).to eql(Date.new(2014,9,1)) }
+    it { expect(debit_transaction.entry_date).to eql(Date.new(2014,9,2)) }
+    it { expect(debit_transaction.funds_code).to eql('D') }
+    it { expect(debit_transaction.currency_letter).to eql('R') }
+    it { expect(debit_transaction.amount).to eql(1.62) }
+    it { expect(debit_transaction.amount_in_cents).to eql(162) }
+    it { expect(debit_transaction.swift_code).to eql('NTRF') }
+    it { expect(debit_transaction.reference).to eql('0000549855700010') }
+    it { expect(debit_transaction.bank_reference).to eql('025498557/000001') }
+    it { expect(debit_transaction).to_not be_credit }
+    it { expect(debit_transaction).to be_debit }
+    it { expect(debit_transaction).not_to be_storno }
+    it { expect(debit_transaction.sign).to eql(-1) }
+  end
+
+  context 'storno credit' do
+    it { expect(storno_credit_transaction.date).to eql(Date.new(2014,9,1)) }
+    it { expect(storno_credit_transaction.entry_date).to eql(Date.new(2014,9,2)) }
+    it { expect(storno_credit_transaction.funds_code).to eql('RC') }
+    it { expect(storno_credit_transaction.currency_letter).to eql('R') }
+    it { expect(storno_credit_transaction.amount).to eql(1.62) }
+    it { expect(storno_credit_transaction.amount_in_cents).to eql(162) }
+    it { expect(storno_credit_transaction.swift_code).to eql('NTRF') }
+    it { expect(storno_credit_transaction.reference).to eql('0000549855700010') }
+    it { expect(storno_credit_transaction.bank_reference).to eql('025498557/000001') }
+    it { expect(storno_credit_transaction).to be_credit }
+    it { expect(storno_credit_transaction).not_to be_debit }
+    it { expect(storno_credit_transaction).not_to be_storno_debit }
+    it { expect(storno_credit_transaction).to be_storno }
+    it { expect(storno_credit_transaction.sign).to eql(1) }
+  end
 end
