@@ -1,5 +1,7 @@
-# 0.2.2
+# 1.0.0
   * [FEATURE] adds support for storno transactions (#14)
+  * [NOTE] full backwards compatibility
+  * [NOTE] same as release 0.2.2, fixing versioning
 
 # 0.2.1
   * addressing an bug that occoured for transactions submitted end of
