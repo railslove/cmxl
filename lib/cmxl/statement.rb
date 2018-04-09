@@ -23,17 +23,11 @@ module Cmxl
     # Internal: Parse a single MT940 statement and extract the line data
     #
     def parse!
-      # first we clean uo the source and make concat wraped lines (lines not starting with a ":")
-      self.source.split("\n").each do |line|
-        if line.start_with?(':') || self.lines.last.nil?
-          self.lines << line.strip
-        else
-          self.lines.last << line.strip
-        end
-      end
-
       self.fields = []
-      lines.each do |line|
+
+      source.split("\n:").each(&:strip!).each do |line|
+        line = ":#{line}" unless line =~ %r{^:} # prepend lost : via split
+
         if line.match(/\A:86:/)
           if field = fields.last
             field.add_meta_data(line)
@@ -43,21 +37,6 @@ module Cmxl
           self.fields << field unless field.nil?
         end
       end
-
-      # puts "Fixed Fields"
-      # puts fields.inspect
-      #
-      # # Now we check each line for its content ans structure it for further use. If it is part of a transaction we initate or update a transaction else we parse the field and add it to the fields collection
-      # self.lines.each do |line|
-      #   if line.match(/\A:61:/)
-      #     self.transactions << Cmxl::Transaction.new(line)
-      #   elsif line.match(/\A:86:/) && !self.transactions.last.nil?
-      #     self.transactions.last.details = line
-      #   else
-      #     field = Field.parse(line)
-      #     self.fields << field unless field.nil?
-      #   end
-      # end
     end
 
     # Public: SHA2 of the provided source

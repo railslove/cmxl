@@ -2,7 +2,7 @@ module Cmxl
   module Fields
     class Transaction < Field
       self.tag = 61
-      self.parser = /^(?<date>\d{6})(?<entry_date>\d{4})?(?<storno_flag>R?)(?<funds_code>[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F).{3})(?<reference>NONREF|.{0,16})(?:$|\/\/)(?<bank_reference>.*)/i
+      self.parser = %r{^(?<date>\d{6})(?<entry_date>\d{4})?(?<storno_flag>R?)(?<funds_code>[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F).{3})(?<reference>NONREF|.{0,16})((?:\/\/)(?<bank_reference>[^\n]*))?((?:[\n])?(?<supplementary>.{,34}))$}
 
       attr_accessor :details
 
@@ -68,6 +68,25 @@ module Cmxl
         end
       end
 
+      def supplementary
+        @supplementary ||= Cmxl::Fields::TransactionSupplementary.parse(data['supplementary'])
+      end
+
+      # Fields from supplementary
+
+      def initial_amount_in_cents
+        supplementary.initial_amount_in_cents
+      end
+      def initial_currency
+        supplementary.initial_currency
+      end
+      def charges_in_cents
+        supplementary.charges_in_cents
+      end
+      def charges_currency
+        supplementary.charges_currency
+      end
+
       # Fields from details
 
       def description
@@ -107,7 +126,11 @@ module Cmxl
           'swift_code' => swift_code,
           'reference' => reference,
           'bank_reference' => bank_reference,
-          'currency_letter' => currency_letter
+          'currency_letter' => currency_letter,
+          'initial_amount_in_cents' => initial_amount_in_cents,
+          'initial_currency' => initial_currency,
+          'charges_in_cents' => charges_in_cents,
+          'charges_currency' => charges_currency,
         }.merge(details ? details.to_h : {})
       end
 

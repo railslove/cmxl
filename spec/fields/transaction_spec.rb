@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Cmxl::Fields::Transaction do
   subject(:debit_transaction) { Cmxl::Fields::Transaction.parse(fixture.first) }
   subject(:storno_credit_transaction) { Cmxl::Fields::Transaction.parse(fixture.last) }
+  subject(:ocmt_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_ocmt)) }
+  subject(:ocmt_cghs_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_ocmt_chgs)) }
 
   let(:fixture) { fixture_line(:statement_line).split(/\n/) }
 
@@ -37,5 +39,19 @@ describe Cmxl::Fields::Transaction do
     it { expect(storno_credit_transaction).not_to be_storno_debit }
     it { expect(storno_credit_transaction).to be_storno }
     it { expect(storno_credit_transaction.sign).to eql(1) }
+  end
+
+  context 'statement with initial amount and currency' do
+    it { expect(ocmt_transaction.initial_amount_in_cents).to eql(4711) }
+    it { expect(ocmt_transaction.initial_currency).to eql('CAD') }
+  end
+
+  context 'statement with initial amount and currency and also charges' do
+    it {
+      expect(ocmt_cghs_transaction.initial_amount_in_cents).to eql(4711) }
+    it { expect(ocmt_cghs_transaction.initial_currency).to eql('CAD') }
+
+    it { expect(ocmt_cghs_transaction.charges_in_cents).to eql(123) }
+    it { expect(ocmt_cghs_transaction.charges_currency).to eql('EUR') }
   end
 end

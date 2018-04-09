@@ -44,8 +44,8 @@ module Cmxl
     # Cmxl::Field.parse(':60F:C031002PLN40000,00') #=> returns an AccountBalance instance
     #
     def self.parse(line)
-      if line.match(/^:(\d{2,2})(\w)?:(.*)$/)
-        tag, modifier, content = $1, $2, $3
+      if line.match(/\A:(\d{2,2})(\w)?:(.*)\z/m)
+        tag, modifier, content = $1, $2, $3.gsub(/\r?\n\z/, '') # gsub last line break
         Field.parsers[tag.to_s].new(content, modifier, tag)
       else
         raise LineFormatError, "Wrong line format: #{line.dump}" if Cmxl.config[:raise_line_format_errors]
