@@ -25,6 +25,9 @@ module Cmxl
     def parse!
       self.fields = []
 
+      # split transactions, each transaction starts with a colon after a linebreak
+      # do not remove line breaks within transaction lines as they are used to determine field details
+      # e.g. :61:-supplementary
       source.split("\n:").each(&:strip!).each do |line|
         line = ":#{line}" unless line =~ %r{^:} # prepend lost : via split
 
