@@ -58,10 +58,6 @@ describe Cmxl do
         },
         "transaction_code" => "171",
         "details" => "?00SEPA LASTSCHRIFT KUNDE?10281?20KREF+EREF+TRX-0A4A47C3-F846-4729?21-8A1B-5DF620F?22MREF+CAC97D2144174318AC18D9?23BF815BD4FB?24CRED+DE98ZZZ09999999999?25SVWZ+FOO TRX-0A4A47C3-F84?266-4729-8A1B-5DF620F?30HYVEDEMMXXX?31HUkkbbbsssskcccccccccccccccx?32Peter Pan?99?34171",
-        'initial_amount_in_cents' => nil,
-        'initial_currency' => nil,
-        'charges_in_cents' => nil,
-        'charges_currency' => nil,
         }
       )
     }
@@ -92,10 +88,6 @@ describe Cmxl do
         "debit" => true,
         "credit" => false,
         "storno" => false,
-        'initial_amount_in_cents' => nil,
-        'initial_currency' => nil,
-        'charges_in_cents' => nil,
-        'charges_currency' => nil,
       })
     end
   end
