@@ -1,3 +1,6 @@
+# 1.1.0
+  * [FEATURE] adds support for supplementary details in transactions (Field 61, Subfield 9) (#18)
+
 # 1.0.0
   * [FEATURE] adds support for storno transactions (#14)
   * [NOTE] full backwards compatibility
