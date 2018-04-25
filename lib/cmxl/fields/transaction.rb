@@ -127,11 +127,10 @@ module Cmxl
           'reference' => reference,
           'bank_reference' => bank_reference,
           'currency_letter' => currency_letter,
-          'initial_amount_in_cents' => initial_amount_in_cents,
-          'initial_currency' => initial_currency,
-          'charges_in_cents' => charges_in_cents,
-          'charges_currency' => charges_currency,
-        }.merge(details ? details.to_h : {})
+        }.tap do |h|
+          h.merge!(details.to_h) if details
+          h.merge!(supplementary.to_h) unless supplementary.source.empty?
+        end
       end
 
       def to_hash

@@ -37,6 +37,17 @@ module Cmxl
       def charges_currency
         charges[0..2] if charges
       end
+
+      def to_h
+        {
+          source: source,
+          initial_amount_in_cents: initial_amount_in_cents,
+          initial_currency: initial_currency,
+          charges_in_cents: charges_in_cents,
+          charges_currency: charges_currency,
+        }
+      end
+      alias_method :to_hash, :to_h
     end
   end
 end
