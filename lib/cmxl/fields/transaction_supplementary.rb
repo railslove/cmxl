@@ -6,8 +6,8 @@ module Cmxl
 
       class << self
         def parse(line)
-          initial = $1 if line.match(initial_parser)
-          charges = $1 if line.match(charges_parser)
+          initial = $1 if line && line.match(initial_parser)
+          charges = $1 if line && line.match(charges_parser)
           new(line, initial, charges)
         end
 
