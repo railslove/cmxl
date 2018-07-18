@@ -45,7 +45,7 @@ module Cmxl
     #
     def self.parse(line)
       if line.match(/\A:(\d{2,2})(\w)?:(.*)\z/m)
-        tag, modifier, content = $1, $2, $3.gsub(/\r?\n\z/, '') # remove trailing line break to prevent empty field parsing
+        tag, modifier, content = $1, $2, $3.gsub(/\r/, '').gsub(/\n\z/, '') # remove trailing line break to prevent empty field parsing
         Field.parsers[tag.to_s].new(content, modifier, tag)
       else
         raise LineFormatError, "Wrong line format: #{line.dump}" if Cmxl.config[:raise_line_format_errors]

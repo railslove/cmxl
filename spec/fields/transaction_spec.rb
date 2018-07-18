@@ -62,6 +62,8 @@ describe Cmxl::Fields::Transaction do
     it { expect(supplementary_transaction.charges_in_cents).to eql(nil) }
     it { expect(supplementary_transaction.charges_currency).to eql(nil) }
 
-    it { expect(supplementary_transaction.supplementary.source).to eql('Card Transaction') }
+    it { expect(supplementary_transaction.reference).to eql('FOOBAR/123') }
+    it { expect(supplementary_transaction.bank_reference).to eql('HERP-DERP-REF') }
+    it { expect(supplementary_transaction.supplementary.source).to eql('random text / and stuff') }
   end
 end
