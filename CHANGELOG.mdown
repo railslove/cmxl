@@ -1,3 +1,6 @@
+# 1.1.1
+  * [BUGFIX] prevents short bank references from swallowing supplementary details delimiter
+
 # 1.1.0
   * [FEATURE] adds support for supplementary details in transactions (Field 61, Subfield 9) (#18)
 
