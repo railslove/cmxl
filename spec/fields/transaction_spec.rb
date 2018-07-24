@@ -6,6 +6,7 @@ describe Cmxl::Fields::Transaction do
   subject(:ocmt_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_ocmt)) }
   subject(:ocmt_cghs_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_ocmt_chgs)) }
   subject(:supplementary_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_supplementary_plain)) }
+  subject(:complex_supplementary_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_supplementary_complex)) }
 
   let(:fixture) { fixture_line(:statement_line).split(/\n/) }
 
@@ -62,8 +63,18 @@ describe Cmxl::Fields::Transaction do
     it { expect(supplementary_transaction.charges_in_cents).to eql(nil) }
     it { expect(supplementary_transaction.charges_currency).to eql(nil) }
 
-    it { expect(supplementary_transaction.reference).to eql('FOOBAR/123') }
-    it { expect(supplementary_transaction.bank_reference).to eql('HERP-DERP-REF') }
-    it { expect(supplementary_transaction.supplementary.source).to eql('random text / and stuff') }
+    it { expect(supplementary_transaction.supplementary.source).to eql('Card Transaction') }
+  end
+
+  context 'statement with complex supplementary' do
+    it { expect(complex_supplementary_transaction.initial_amount_in_cents).to eql(nil) }
+    it { expect(complex_supplementary_transaction.initial_currency).to eql(nil) }
+
+    it { expect(complex_supplementary_transaction.charges_in_cents).to eql(nil) }
+    it { expect(complex_supplementary_transaction.charges_currency).to eql(nil) }
+
+    it { expect(complex_supplementary_transaction.reference).to eql('FOOBAR/123') }
+    it { expect(complex_supplementary_transaction.bank_reference).to eql('HERP-DERP-REF') }
+    it { expect(complex_supplementary_transaction.supplementary.source).to eql('random text / and stuff') }
   end
 end
