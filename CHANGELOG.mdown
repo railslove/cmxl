@@ -1,11 +1,17 @@
+# 1.2.0
+  * [FEATURE] strips mt940 header if configured ([#9](https://github.com/railslove/cmxl/issues/9))
+    ```ruby
+      Cmxl.config[:strip_headers] = true
+    ```
+
 # 1.1.1
   * [BUGFIX] prevents short bank references from swallowing supplementary details delimiter
 
 # 1.1.0
-  * [FEATURE] adds support for supplementary details in transactions (Field 61, Subfield 9) (#18)
+  * [FEATURE] adds support for supplementary details in transactions (Field 61, Subfield 9) ([#18](https://github.com/railslove/cmxl/issues/18))
 
 # 1.0.0
-  * [FEATURE] adds support for storno transactions (#14)
+  * [FEATURE] adds support for storno transactions ([#14](https://github.com/railslove/cmxl/issues/14))
   * [NOTE] full backwards compatibility
   * [NOTE] same as release 0.2.2, fixing versioning
 
@@ -16,8 +22,8 @@
   * MT942 support for field 13
 
 # 0.2.0
-  * added several balance related accessors (#7)
-  * configuration option for `statement separator` (#5)
+  * added several balance related accessors ([#7](https://github.com/railslove/cmxl/issues/7))
+  * configuration option for `statement separator` ([#5](https://github.com/railslove/cmxl/issues/5))
   * improvement for general compatibility
 
 # 0.1.3
