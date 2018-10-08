@@ -13,6 +13,7 @@ module Cmxl
       self.source = source
       self.fields = []
       self.lines = []
+      self.strip_headers! if Cmxl.config[:strip_headers]
       self.parse!
     end
 
@@ -41,6 +42,13 @@ module Cmxl
         end
       end
     end
+
+    def strip_headers!
+      self.source.gsub!(/\A.+?(?=^:)/m, '') # beginning: strip every line in the beginning that does not start with a :
+      self.source.gsub!(/^[^:]+\z/, '') # end: strip every line in the end that does not start with a :
+      self.source.strip!
+    end
+
 
     # Public: SHA2 of the provided source
     # This is an experiment of trying to identify statements. The MT940 itself might not provide a unique identifier
