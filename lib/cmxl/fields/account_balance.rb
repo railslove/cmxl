@@ -5,11 +5,11 @@ module Cmxl
       self.parser = /(?<funds_code>\A[a-zA-Z]{1})(?<date>\d{6})(?<currency>[a-zA-Z]{3})(?<amount>[\d|,|\.]{4,15})/i
 
       def date
-        to_date(self.data['date'])
+        to_date(data['date'])
       end
 
       def credit?
-        self.data['funds_code'].to_s.upcase == 'C'
+        data['funds_code'].to_s.casecmp('C').zero?
       end
 
       def debit?
@@ -17,19 +17,19 @@ module Cmxl
       end
 
       def amount
-        to_amount(self.data['amount'])
+        to_amount(data['amount'])
       end
 
       def sign
-        self.credit? ? 1 : -1
+        credit? ? 1 : -1
       end
 
       def amount_in_cents
-        to_amount_in_cents(self.data['amount'])
+        to_amount_in_cents(data['amount'])
       end
 
       def to_h
-        super.merge({
+        super.merge(
           'date' => date,
           'funds_code' => funds_code,
           'credit' => credit?,
@@ -38,7 +38,7 @@ module Cmxl
           'amount' => amount,
           'amount_in_cents' => amount_in_cents,
           'sign' => sign
-        })
+        )
       end
     end
   end

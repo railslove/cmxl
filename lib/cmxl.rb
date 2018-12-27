@@ -1,6 +1,6 @@
-require "cmxl/version"
+require 'cmxl/version'
 
-require "rchardet19"
+require 'rchardet19'
 
 require 'cmxl/field'
 require 'cmxl/statement'
@@ -11,9 +11,9 @@ module Cmxl
     @config
   end
   @config = {
-    :statement_separator => /\n-\s*\n/m,
-    :raise_line_format_errors => true,
-    :strip_headers => false
+    statement_separator: /\n-\s*\n/m,
+    raise_line_format_errors: true,
+    strip_headers: false
   }
 
   # Public: Parse a MT940 string
@@ -28,8 +28,8 @@ module Cmxl
   # Cmxl.parse(mt940_string)
   #
   # Returns an array of Statement objects
-  def self.parse(data, options={})
-    options[:statement_separator] ||= self.config[:statement_separator]
+  def self.parse(data, options = {})
+    options[:statement_separator] ||= config[:statement_separator]
     # if no encoding is provided we try to guess using CharDet
     if options[:encoding].nil? && cd = CharDet.detect(data, silent: true)
       options[:encoding] = cd.encoding
@@ -38,9 +38,9 @@ module Cmxl
     if options[:encoding]
       data.encode!('UTF-8', options.delete(:encoding), options)
     else
-      data.encode!('UTF-8', options) if !options.empty?
+      data.encode!('UTF-8', options) unless options.empty?
     end
 
-    data.split(options[:statement_separator]).reject { |s| s.strip.empty? }.collect {|s| Cmxl::Statement.new(s.strip) }
+    data.split(options[:statement_separator]).reject { |s| s.strip.empty? }.collect { |s| Cmxl::Statement.new(s.strip) }
   end
 end

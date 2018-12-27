@@ -7,31 +7,31 @@ module Cmxl
       class << self
         def parse(line)
           # remove line breaks as they are allowed via documentation but not needed for data-parsing
-          super line.gsub(/\n/, '')
+          super line.delete("\n")
         end
       end
 
       def sub_fields
-        @sub_fields ||= if self.data['details'] =~ /#{Regexp.escape(self.data['seperator'])}(\d{2})/
-            Hash[self.data['details'].scan(/#{Regexp.escape(self.data['seperator'])}(\d{2})([^#{Regexp.escape(self.data['seperator'])}]*)/)]
-          else
-            {}
+        @sub_fields ||= if data['details'] =~ /#{Regexp.escape(data['seperator'])}(\d{2})/
+                          Hash[data['details'].scan(/#{Regexp.escape(data['seperator'])}(\d{2})([^#{Regexp.escape(data['seperator'])}]*)/)]
+                        else
+                          {}
           end
       end
 
       def description
-        self.sub_fields['00'] || self.data['details']
+        sub_fields['00'] || data['details']
       end
 
       def information
-        info = (20..29).to_a.collect {|i| self.sub_fields[i.to_s] }.join('')
-        info.empty? ? self.description : info
+        info = (20..29).to_a.collect { |i| sub_fields[i.to_s] }.join('')
+        info.empty? ? description : info
       end
 
       def sepa
-        if self.information =~ /([A-Z]{4})\+/
+        if information =~ /([A-Z]{4})\+/
           Hash[
-            *self.information.split(/([A-Z]{4})\+/)[1..-1].tap {|info| info << "" if info.size.odd? }
+            *information.split(/([A-Z]{4})\+/)[1..-1].tap { |info| info << '' if info.size.odd? }
           ]
         else
           {}
@@ -39,15 +39,15 @@ module Cmxl
       end
 
       def bic
-        self.sub_fields['30']
+        sub_fields['30']
       end
 
       def name
-        [self.sub_fields['32'], self.sub_fields['33']].compact.join(" ")
+        [sub_fields['32'], sub_fields['33']].compact.join(' ')
       end
 
       def iban
-        self.sub_fields['38'] || self.sub_fields['31']
+        sub_fields['38'] || sub_fields['31']
       end
 
       def to_h
