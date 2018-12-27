@@ -6,17 +6,14 @@ SimpleCov.start
 
 require 'cmxl'
 
-
-puts File.join(File.dirname(__FILE__), "support/**/*.rb").to_s
-Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
+puts File.join(File.dirname(__FILE__), 'support/**/*.rb').to_s
+Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
 
-  if config.files_to_run.one?
-    config.default_formatter = 'doc'
-  end
+  config.default_formatter = 'doc' if config.files_to_run.one?
 
   config.profile_examples = 3
 

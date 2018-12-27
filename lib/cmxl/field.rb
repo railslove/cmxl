@@ -2,13 +2,13 @@ require 'date'
 module Cmxl
   class Field
     class LineFormatError < StandardError; end
-    class Unknown < Field;
-      @parser= /(?<source>.*)/
+    class Unknown < Field
+      @parser = /(?<source>.*)/
       def to_h
         { tag: tag, modifier: modifier, source: source }
       end
     end
-    DATE = /(?<year>\d{0,2})(?<month>\d{2})(?<day>\d{2})/
+    DATE = /(?<year>\d{0,2})(?<month>\d{2})(?<day>\d{2})/.freeze
     attr_accessor :source, :modifier, :match, :data, :tag
 
     # The parser class variable is the registry of all available parser.
@@ -16,7 +16,9 @@ module Cmxl
     # When parsing a statment line we look for a matching entry or use the Unknown class as default
     @@parsers = {}
     @@parsers.default = Unknown
-    def self.parsers; @@parsers; end
+    def self.parsers
+      @@parsers
+    end
 
     # Class accessor for the parser
     # Every sub class should have its own parser (regex to parse a MT940 field/line)
@@ -30,8 +32,9 @@ module Cmxl
       @tag = tag.to_s
       @@parsers[tag.to_s] = self
     end
-    def self.tag
-      @tag
+
+    class << self
+      attr_reader :tag
     end
 
     # Public: Parses a statement line and initiates a matching Field class
@@ -44,23 +47,25 @@ module Cmxl
     # Cmxl::Field.parse(':60F:C031002PLN40000,00') #=> returns an AccountBalance instance
     #
     def self.parse(line)
-      if line.match(/\A:(\d{2,2})(\w)?:(.*)\z/m)
-        tag, modifier, content = $1, $2, $3.gsub(/\r/, '').gsub(/\n\z/, '') # remove trailing line break to prevent empty field parsing
+      if line =~ /\A:(\d{2,2})(\w)?:(.*)\z/m
+        tag = Regexp.last_match(1)
+        modifier = Regexp.last_match(2)
+        content = Regexp.last_match(3).delete("\r").gsub(/\n\z/, '') # remove trailing line break to prevent empty field parsing
         Field.parsers[tag.to_s].new(content, modifier, tag)
       else
         raise LineFormatError, "Wrong line format: #{line.dump}" if Cmxl.config[:raise_line_format_errors]
       end
     end
 
-    def initialize(source, modifier=nil, tag=nil)
+    def initialize(source, modifier = nil, tag = nil)
       self.tag = tag
       self.modifier = modifier
       self.source = source
       self.data = {}
 
       if self.match = self.source.match(self.class.parser)
-        self.match.names.each do |name|
-          self.data[name] = self.match[name]
+        match.names.each do |name|
+          data[name] = match[name]
         end
       end
     end
@@ -70,11 +75,13 @@ module Cmxl
     end
 
     def to_h
-      self.data.merge('tag' => self.tag)
+      data.merge('tag' => tag)
     end
+
     def to_hash
       to_h
     end
+
     def to_json(*args)
       to_h.to_json(*args)
     end
@@ -89,9 +96,9 @@ module Cmxl
     # to_date('0909', 2014)
     #
     # Retuns a date object or the provided date value if it is not parseable.
-    def to_date(date, year=nil)
+    def to_date(date, year = nil)
       if match = date.to_s.match(DATE)
-        year ||= "20#{match['year'] || Date.today.strftime("%y")}"
+        year ||= "20#{match['year'] || Date.today.strftime('%y')}"
         month = match['month']
         day = match['day']
         Date.new(year.to_i, month.to_i, day.to_i)
@@ -103,18 +110,18 @@ module Cmxl
     end
 
     def to_amount_in_cents(value)
-      value.gsub(/[,|\.](\d*)/) { $1.ljust(2, '0') }.to_i
+      value.gsub(/[,|\.](\d*)/) { Regexp.last_match(1).ljust(2, '0') }.to_i
     end
 
     def to_amount(value)
-      value.gsub(',','.').to_f
+      value.tr(',', '.').to_f
     end
 
     def method_missing(m, *value)
       if m =~ /=\z/
-        self.data[m] = value.first
+        data[m] = value.first
       else
-        self.data[m.to_s]
+        data[m.to_s]
       end
     end
   end
