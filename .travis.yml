@@ -7,8 +7,8 @@ rvm:
   - 2.5.0
   - jruby-9.1.10.0
 before_install: if [[ `ruby -v` =~ 2.2.8 ]];
-  then gem update --system;
-  else gem update --system 2.7.8;
+  then gem update --system 2.7.8;
+  else gem update --system;
   fi
 
 after_success:
