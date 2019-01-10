@@ -77,12 +77,15 @@ module Cmxl
       def initial_amount_in_cents
         supplementary.initial_amount_in_cents
       end
+
       def initial_currency
         supplementary.initial_currency
       end
+
       def charges_in_cents
         supplementary.charges_in_cents
       end
+
       def charges_currency
         supplementary.charges_currency
       end
@@ -92,21 +95,27 @@ module Cmxl
       def description
         details.description if details
       end
+
       def information
         details.information if details
       end
+
       def bic
         details.bic if details
       end
+
       def name
         details.name if details
       end
+
       def iban
         details.iban if details
       end
+
       def sepa
         details.sepa if details
       end
+
       def sub_fields
         details.sub_fields if details
       end
@@ -126,7 +135,7 @@ module Cmxl
           'swift_code' => swift_code,
           'reference' => reference,
           'bank_reference' => bank_reference,
-          'currency_letter' => currency_letter,
+          'currency_letter' => currency_letter
         }.tap do |h|
           h.merge!(details.to_h) if details
           h.merge!(supplementary.to_h) if supplementary.source

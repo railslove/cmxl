@@ -11,8 +11,8 @@ describe Cmxl::Fields::Transaction do
   let(:fixture) { fixture_line(:statement_line).split(/\n/) }
 
   context 'debit' do
-    it { expect(debit_transaction.date).to eql(Date.new(2014,9,1)) }
-    it { expect(debit_transaction.entry_date).to eql(Date.new(2014,9,2)) }
+    it { expect(debit_transaction.date).to eql(Date.new(2014, 9, 1)) }
+    it { expect(debit_transaction.entry_date).to eql(Date.new(2014, 9, 2)) }
     it { expect(debit_transaction.funds_code).to eql('D') }
     it { expect(debit_transaction.currency_letter).to eql('R') }
     it { expect(debit_transaction.amount).to eql(1.62) }
@@ -27,8 +27,8 @@ describe Cmxl::Fields::Transaction do
   end
 
   context 'storno credit' do
-    it { expect(storno_credit_transaction.date).to eql(Date.new(2014,9,1)) }
-    it { expect(storno_credit_transaction.entry_date).to eql(Date.new(2014,9,2)) }
+    it { expect(storno_credit_transaction.date).to eql(Date.new(2014, 9, 1)) }
+    it { expect(storno_credit_transaction.entry_date).to eql(Date.new(2014, 9, 2)) }
     it { expect(storno_credit_transaction.funds_code).to eql('RC') }
     it { expect(storno_credit_transaction.currency_letter).to eql('R') }
     it { expect(storno_credit_transaction.amount).to eql(1.62) }
