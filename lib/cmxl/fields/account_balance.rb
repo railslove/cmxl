@@ -9,7 +9,7 @@ module Cmxl
       end
 
       def credit?
-        data['funds_code'].to_s.casecmp?('C')
+        data['funds_code'].to_s.casecmp('C').zero?
       end
 
       def debit?
