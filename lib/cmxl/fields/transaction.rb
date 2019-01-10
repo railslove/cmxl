@@ -15,11 +15,11 @@ module Cmxl
       end
 
       def credit?
-        data['funds_code'].to_s.casecmp('C').zero?
+        data['funds_code'].to_s.casecmp?('C')
       end
 
       def debit?
-        data['funds_code'].to_s.casecmp('D').zero?
+        data['funds_code'].to_s.casecmp?('D')
       end
 
       def storno_credit?
