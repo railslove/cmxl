@@ -16,10 +16,6 @@ module Cmxl
         data['entries'].to_i
       end
 
-      def currency
-        data['currency']
-      end
-
       def amount
         to_amount(data['amount'])
       end

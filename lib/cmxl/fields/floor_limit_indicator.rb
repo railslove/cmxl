@@ -2,18 +2,14 @@ module Cmxl
   module Fields
     class FloorLimitIndicator < Field
       self.tag = 34
-      self.parser = /(?<currency>[a-zA-Z]{3})(?<debit_mark>[DC]?)(?<amount>[\d|,|\.]{4,15})/i
+      self.parser = /(?<currency>[a-zA-Z]{3})(?<type_indicator>[DC]?)(?<amount>[\d|,|\.]{4,15})/i
 
       def credit?
-        data['debit_mark'].empty? || data['debit_mark'] == 'C'
+        data['type_indicator'].empty? || data['type_indicator'] == 'C'
       end
 
       def debit?
-        data['debit_mark'].empty? || data['debit_mark'] == 'D'
-      end
-
-      def currency
-        data['currency']
+        data['type_indicator'].empty? || data['type_indicator'] == 'D'
       end
 
       def amount
