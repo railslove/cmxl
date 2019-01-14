@@ -93,7 +93,23 @@ module Cmxl
       field(28).source
     end
 
+    def vmk_credit_summary
+      field(90, 'C')
+    end
+
+    def vmk_debit_summary
+      field(90, 'D')
+    end
+
+    def mt942?
+      fields.any? { |field| field.is_a? Fields::FloorLimitIndicator }
+    end
+
     def to_h
+      mt942? ? mt942_hash : mt940_hash
+    end
+
+    def mt940_hash
       {
         'reference' => reference,
         'sha' => sha,
@@ -102,6 +118,19 @@ module Cmxl
         'opening_balance' => opening_balance.to_h,
         'closing_balance' => closing_balance.to_h,
         'available_balance' => available_balance.to_h,
+        'transactions' => transactions.map(&:to_h),
+        'fields' => fields.map(&:to_h)
+      }
+    end
+
+    def mt942_hash
+      {
+        'reference' => reference,
+        'sha' => sha,
+        'generation_date' => generation_date,
+        'account_identification' => account_identification.to_h,
+        'debit_summary' => vmk_debit_summary.to_h,
+        'credit_summary' => vmk_credit_summary.to_h,
         'transactions' => transactions.map(&:to_h),
         'fields' => fields.map(&:to_h)
       }
