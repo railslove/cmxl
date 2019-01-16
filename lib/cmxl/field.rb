@@ -47,7 +47,7 @@ module Cmxl
     # Cmxl::Field.parse(':60F:C031002PLN40000,00') #=> returns an AccountBalance instance
     #
     def self.parse(line)
-      if line =~ /\A:(\d{2,2})(\w)?:(.*)\z/m
+      if line =~ /\A:(\w{2,2})(\w)?:(.*)\z/m
         tag = Regexp.last_match(1)
         modifier = Regexp.last_match(2)
         content = Regexp.last_match(3).delete("\r").gsub(/\n\z/, '') # remove trailing line break to prevent empty field parsing
