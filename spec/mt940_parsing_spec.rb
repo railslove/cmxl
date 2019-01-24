@@ -57,6 +57,8 @@ describe 'parsing a statement' do
     it { expect(subject.transactions.first.bic).to eql('10600076') }
     it { expect(subject.transactions.first.iban).to eql('PL08106000760000777777777777') }
     it { expect(subject.transactions.first.sepa).to eql({}) }
+
+    it { expect(subject.field('NS').to_h).to eql({tag: 'NS', modifier: 'F', source: 'HelloWorld'}) }
   end
 
   context 'statement separator as used by most banks' do
