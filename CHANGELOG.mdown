@@ -1,6 +1,6 @@
 # 1.3.0
 
-- [FEATURE] adds MT942 compability
+- [FEATURE] adds MT942 compatibility
 
 # 1.2.0
 
