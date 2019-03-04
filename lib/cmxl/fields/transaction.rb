@@ -60,11 +60,9 @@ module Cmxl
 
       def entry_date
         if data['entry_date'] && date
-          if date.month == 1 && date.month < to_date(data['entry_date'], date.year).month
-            to_date(data['entry_date'], date.year - 1)
-          else
-            to_date(data['entry_date'], date.year)
-          end
+          deltas = [-1, 0, 1]
+          candidates = deltas.map { |delta| to_date(data['entry_date'], date.year + delta) }
+          candidates.min_by { |candidate| (candidate - date).abs }
         end
       end
 
