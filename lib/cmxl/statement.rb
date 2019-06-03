@@ -26,22 +26,9 @@ module Cmxl
     def parse!
       self.fields = []
 
-      # split transactions, each transaction starts with a colon, 2-3 letters and/or digits, followed by a colon.
-      # do not remove line breaks within transaction lines as they are used to determine field details
-      # e.g. :61:-supplementary
-      matches = []
-      remaining_source = source
+      lines = source.split(/(:[0-9A-Z]{2,3}:)+/m).reject(&:empty?).each_slice(2).map(&:join)
 
-      # this code builds an array in matches, [':61:', 'line_content', ':28C', 'more line content']
-      while remaining_source && (match = remaining_source.split(/^(:[A-Z0-9]{2,3}:)(.*)/m))
-        matches << match[0] if !match[0].nil? && !match[0].empty? # this is the remaining line after a potential tag
-        matches << match[1] if !match[1].nil? # this is the tag
-        remaining_source = match[2] # this is everything after the tag
-      end
-
-      # merge tags and line contents into lines that can be parsed
-      matches.each_slice(2).map do |tag, content|
-        line = tag + content.strip
+      lines.map do |line|
         if line =~ /\A:86:/
           if field = fields.last
             field.add_meta_data(line)
