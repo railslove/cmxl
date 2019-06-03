@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe Cmxl::Fields::Transaction do
-  subject(:debit_transaction) { Cmxl::Fields::Transaction.parse(fixture.first) }
-  subject(:storno_credit_transaction) { Cmxl::Fields::Transaction.parse(fixture.last) }
+  subject(:debit_transaction) { Cmxl::Fields::Transaction.parse(fixture[0]) }
+  subject(:storno_credit_transaction) { Cmxl::Fields::Transaction.parse(fixture[1]) }
   subject(:ocmt_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_ocmt)) }
   subject(:ocmt_cghs_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_ocmt_chgs)) }
   subject(:supplementary_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_supplementary_plain)) }
   subject(:complex_supplementary_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_supplementary_complex)) }
+  subject(:valuta_after_enty_date) { Cmxl::Fields::Transaction.parse(fixture[3]) }
+  subject(:entry_before_valuta_transaction) { Cmxl::Fields::Transaction.parse(fixture[2]) }
 
   let(:fixture) { fixture_line(:statement_line).split(/\n/) }
 
@@ -76,5 +78,17 @@ describe Cmxl::Fields::Transaction do
     it { expect(complex_supplementary_transaction.reference).to eql('FOOBAR/123') }
     it { expect(complex_supplementary_transaction.bank_reference).to eql('HERP-DERP-REF') }
     it { expect(complex_supplementary_transaction.supplementary.source).to eql('random text / and stuff') }
+  end
+
+  context 'valuta and entry-date assumptions' do
+    it 'entry_date before valuta is recognized correclty when including year-change' do
+      expect(entry_before_valuta_transaction.date).to eql(Date.new(2014, 1, 10))
+      expect(entry_before_valuta_transaction.entry_date).to eql(Date.new(2013, 12, 24))
+    end
+
+    it 'entry_date after valuta is recognized correctly when including year-change' do
+      expect(valuta_after_enty_date.date).to eql(Date.new(2014, 12, 24))
+      expect(valuta_after_enty_date.entry_date).to eql(Date.new(2015, 1, 2))
+    end
   end
 end
