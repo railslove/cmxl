@@ -120,6 +120,14 @@ describe Cmxl do
         expect(subject.bic).to eq('10020030')
       end
     end
+
+    describe 'statement with colon right after linebreak' do
+      subject { Cmxl.parse(mt940_file('mt940-with-colon-after-line-break')).first.transactions.first }
+
+      it 'has the right details' do
+        expect(subject.to_h['details']).to eq('?109075/658?20EREF+000000000193592204?21MREF+CN3R3U?22CRED+DE7600200000132558?23SVWZ+STARTER//8449273399/US?24 22-04-2019T03:46:08 Karten?25nr. 5355999999999975  Origi?26nal 49,00 USD 1 EUR/1,12385?27 USD  Entgelt 0,44 EUR?30DEUTDEDBFRA?31DE19500700240004020480?32DEUTSCHE BANK')
+      end
+    end
   end
 
   context 'mt942' do
