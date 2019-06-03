@@ -69,7 +69,7 @@ module Cmxl
         e_date = to_date(data['entry_date'], date.year - 1) if date.month == 1 && e_date.month == 12
 
         # valuta is in december but entry_date is in january => entry_date is actually in the year after valuta
-        e_date = to_date(data['entry_date'], date.year + 1) if date.month == 12 && e_date.month == 11
+        e_date = to_date(data['entry_date'], date.year + 1) if date.month == 12 && e_date.month == 1
 
         e_date
       end
