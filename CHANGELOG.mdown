@@ -1,3 +1,8 @@
+# 1.4.1
+
+- [BUGFIX] changes entry date calculation for transaction
+  Thanks to [@grncdr](https://github.com/grncdr)
+
 # 1.4.0
 
 - [FEATURE] adds ability to parse non-numerical tags ([#23](https://github.com/railslove/cmxl/issues/23)) \
