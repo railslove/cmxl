@@ -59,13 +59,19 @@ module Cmxl
       end
 
       def entry_date
-        if data['entry_date'] && date
-          if date.month == 1 && date.month < to_date(data['entry_date'], date.year).month
-            to_date(data['entry_date'], date.year - 1)
-          else
-            to_date(data['entry_date'], date.year)
-          end
-        end
+        return if !date || !data['entry_date']
+
+        e_date = to_date(data['entry_date'], date.year)
+        # we assume that valuta (date) and entry_date have a close connection. so valuta and entry_date should not be
+        # further apart than one month. this leads to some edge cases
+
+        # valuta is in january while entry_date is in december => entry_date was done the year before
+        e_date = to_date(data['entry_date'], date.year - 1) if date.month == 1 && e_date.month == 12
+
+        # valuta is in december but entry_date is in january => entry_date is actually in the year after valuta
+        e_date = to_date(data['entry_date'], date.year + 1) if date.month == 12 && e_date.month == 1
+
+        e_date
       end
 
       def supplementary
