@@ -39,4 +39,11 @@ describe Cmxl::Fields::AccountBalance do
     it { expect(subject.amount_in_cents).to eql(14_764) }
     it { expect(subject.sign).to eql(-1) }
   end
+
+  context 'broken debit' do
+    subject { Cmxl::Fields::AccountBalance.parse(fixture_line(:account_balance_debit_broken)) }
+
+    it { expect(subject.amount).to eql(0.0) }
+    it { expect(subject.amount_in_cents).to eql(0) }
+  end
 end
