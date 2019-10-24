@@ -2,7 +2,7 @@ module Cmxl
   module Fields
     class AccountBalance < Field
       self.tag = 60
-      self.parser = /(?<funds_code>\A[a-zA-Z]{1})(?<date>\d{6})(?<currency>[a-zA-Z]{3})(?<amount>[\d|,|\.]{4,15})/i
+      self.parser = /(?<funds_code>\A[a-zA-Z]{1})(?<date>\d{6})(?<currency>[a-zA-Z]{3})(?<amount>[\d|,|\.]{1,15})/i
 
       def date
         to_date(data['date'])
