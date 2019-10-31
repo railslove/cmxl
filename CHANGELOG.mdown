@@ -1,3 +1,7 @@
+# 1.4.3
+
+- `[BUGFIX]` parse field identifier only at the beginning of lines
+
 # 1.4.2
 
 - `[ENHANCEMENT]` handles broken account data without blowing up

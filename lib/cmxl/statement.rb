@@ -26,7 +26,7 @@ module Cmxl
     def parse!
       self.fields = []
 
-      lines = source.split(/(:[0-9A-Z]{2,3}:)/m).reject(&:empty?).each_slice(2).map(&:join)
+      lines = source.split(/(^:[0-9A-Z]{2,3}:)/m).reject(&:empty?).each_slice(2).map(&:join)
 
       lines.map do |line|
         if line =~ /\A:86:/
