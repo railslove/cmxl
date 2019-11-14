@@ -143,4 +143,20 @@ describe Cmxl do
       expect(subject.transactions.first.iban).to eq('234567')
     end
   end
+
+  context 'mt942 generation date from field 20' do
+    subject(:statement) { Cmxl.parse(mt940_file('mt942')).first }
+
+    it { expect(statement.mt942?).to be_truthy }
+    it { expect(statement.generation_date).to eql(Date.new(2013, 11, 10)) }
+
+  end
+
+  context 'mt942 generation date from field 13' do
+    subject(:statement) { Cmxl.parse(mt940_file('mt942'))[1] }
+
+    it { expect(statement.mt942?).to be_truthy }
+    it { expect(statement.generation_date).to eql(Date.new(2019, 1, 9)) }
+  end
+
 end

@@ -59,7 +59,7 @@ module Cmxl
     end
 
     def generation_date
-      field(20).date || field(13).date
+      field(20).date || (field(13).nil? ? nil : field(13).date)
     end
 
     def account_identification
