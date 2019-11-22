@@ -61,7 +61,7 @@ statements.each do |s|
   puts s.generation_date
   puts s.opening_balance.amount
   puts s.closing_balance.amount
-  puts s.sha # SHA of the statement source - could be used as an unique identifier
+  puts s.sha # SHA of the statement source - could be used as an identifier (see: https://github.com/railslove/cmxl/blob/master/lib/cmxl/statement.rb#L49-L55)
 
   s.transactions.each do |t|
     puts t.information
