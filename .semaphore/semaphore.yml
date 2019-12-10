@@ -11,11 +11,13 @@ blocks:
         - name: CC_TEST_REPORTER_ID
           value: "149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7"
       jobs:
-        - name: "Checkout"
+        - name: Checkout
           commands:
             - checkout
             - ls
             - rm -f .rbenv-version .ruby-version
+        - name: CodeClimate
+          commands:
             - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             - chmod +x ./cc-test-reporter
             - ./cc-test-reporter before-build
@@ -100,13 +102,10 @@ blocks:
     task:
       env_vars:
         - name: CC_TEST_REPORTER_ID
-          value: "149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7"
+          value: 149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7
       jobs:
-        - name: Cove Coverage
+        - name: CodeClimate
           commands:
             - checkout
-            - cache restore
-            - bundle install
-            - cache store
-            - exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then 0; else 1; fi)
-            - ./cc-test-reporter after-build --exit-code $exitcode
+            - exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then 0; else 1; fi);
+              ./cc-test-reporter after-build --exit-code $exitcode
