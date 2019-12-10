@@ -1,6 +1,6 @@
+version: v1.0
 name: Test
 agent:
-version: v1.0
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
@@ -11,13 +11,11 @@ blocks:
         - name: CC_TEST_REPORTER_ID
           value: "149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7"
       jobs:
-        - name: Checkout
+        - name: "Checkout"
           commands:
             - checkout
             - ls
             - rm -f .rbenv-version .ruby-version
-        - name: CodeClimate
-          commands:
             - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             - chmod +x ./cc-test-reporter
             - ./cc-test-reporter before-build
@@ -104,8 +102,11 @@ blocks:
         - name: CC_TEST_REPORTER_ID
           value: "149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7"
       jobs:
-        - name: CodeClimate
+        - name: Cove Coverage
           commands:
             - checkout
+            - cache restore
+            - bundle install
+            - cache store
             - exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then 0; else 1; fi)
             - ./cc-test-reporter after-build --exit-code $exitcode
