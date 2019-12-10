@@ -78,7 +78,7 @@ blocks:
             - chmod +x ./cc-test-reporter
             - cache store
             - ./cc-test-reporter before-build
-            - ./cc-test-reporter format-coverage --output "coverage/codeclimate.$SEMAPHORE_JOB_ID.json"
+            - ./cc-test-reporter format-coverage -t simplecov --output "coverage/codeclimate.$SEMAPHORE_JOB_ID.json"
             - bundle exec rspec
             - aws s3 cp "coverage/codeclimate.$SEMAPHORE_JOB_ID.json" "s3://my_coverage_bucket/$SEMAPHORE_PROJECT_NAME/$SEMAPHORE_GIT_BRANCH/coverage/$SEMAPHORE_WORKFLOW_ID/"
 
