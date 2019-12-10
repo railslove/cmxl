@@ -91,10 +91,10 @@ blocks:
             - cache store
             - bundle exec rspec
   - name: Aftermath
-    env_vars:
-      - name: CODECLIMATE_REPO_TOKEN
-        value: "149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7"
     task:
+      env_vars:
+        - name: CODECLIMATE_REPO_TOKEN
+          value: "149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7"
       jobs:
         - name: Cove Coverage
           commands:
