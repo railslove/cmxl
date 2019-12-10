@@ -17,7 +17,7 @@ blocks:
   - name: Tests
     task:
       env_vars:
-        - name: CODECLIMATE_REPO_TOKEN
+        - name: CC_TEST_REPORTER_ID
           value: 149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7
       jobs:
         - name: "2.0.0-p648"
@@ -74,9 +74,12 @@ blocks:
             - sem-version ruby 2.6
             - cache restore
             - bundle install
+            - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            - chmod +x ./cc-test-reporter
             - cache store
+            - ./cc-test-reporter before-build
             - bundle exec rspec
-            - bundle exec codeclimate-test-reporter
+            - ./cc-test-reporter after-build
 
         - name: "jruby-9.1.17.0"
           commands:
