@@ -4,15 +4,26 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
+env_vars:
+  - name: CC_TEST_REPORTER_ID
+    value: 149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7
 blocks:
   - name: Setup
     task:
+      env_vars:
+        - name: CC_TEST_REPORTER_ID
+          value: "149f0d20e17ace00c44be432a4194bc441ba805da89a7708fca0f4a2c3f2aed7"
       jobs:
         - name: Checkout
           commands:
             - checkout
             - ls
             - rm -f .rbenv-version .ruby-version
+        - name: CodeClimate
+          commands:
+            - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            - chmod +x ./cc-test-reporter
+            - ./cc-test-reporter before-build
   - name: Tests
     task:
       jobs:
@@ -64,14 +75,20 @@ blocks:
             - bundle install
             - cache store
             - bundle exec rspec
-        - name: "2.6"
+        - name: "2.6 including Code Climate"
           commands:
             - checkout
             - sem-version ruby 2.6
             - cache restore
             - bundle install
+            - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            - chmod +x ./cc-test-reporter
             - cache store
+            - ./cc-test-reporter before-build
+            - ./cc-test-reporter format-coverage --output "coverage/codeclimate.$SEMAPHORE_JOB_ID.json"
             - bundle exec rspec
+            - aws s3 cp "coverage/codeclimate.$SEMAPHORE_JOB_ID.json" "s3://my_coverage_bucket/$SEMAPHORE_PROJECT_NAME/$SEMAPHORE_GIT_BRANCH/coverage/$SEMAPHORE_WORKFLOW_ID/"
+
         - name: "jruby-9.1.17.0"
           commands:
             - checkout
@@ -90,3 +107,14 @@ blocks:
             - bundle install
             - cache store
             - bundle exec rspec
+  - name: Fetching and merging partial tests
+   task:
+      jobs:
+        - name: Report Code Climate
+          commands:
+            - checkout
+            # fetching partial tests from S3
+            - aws s3 sync coverage/ "s3://my_coverage_bucket/$SEMAPHORE_PROJECT_NAME/$SEMAPHORE_GIT_BRANCH/coverage/$SEMAPHORE_WORKFLOW_ID/"
+            # merging tests
+            - ./cc-test-reporter sum-coverage --output - --parts $(ls -1 coverage/ | wc -l) coverage/codeclimate.*.json
+            - ./cc-test-reporter upload-coverage
