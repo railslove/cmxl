@@ -91,7 +91,7 @@ blocks:
             - cache store
             - bundle exec rspec
   - name: Aftermath
-    taks:
+    task:
       jobs:
         - name: Cove Coverage
           commands:
