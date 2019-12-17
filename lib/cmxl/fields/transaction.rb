@@ -126,8 +126,8 @@ module Cmxl
         details.sub_fields if details
       end
 
-      def transaction_id
-        details.transaction_id if details
+      def primanota
+        details.primanota if details
       end
 
       def to_h

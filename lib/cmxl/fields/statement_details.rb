@@ -38,7 +38,7 @@ module Cmxl
         end
       end
 
-      def transaction_id
+      def primanota
         sub_fields['10']
       end
 
@@ -64,7 +64,7 @@ module Cmxl
           'description' => description,
           'sub_fields' => sub_fields,
           'transaction_code' => transaction_code,
-          'transaction_id' => transaction_id,
+          'primanota' => primanota,
           'details' => details
         }
       end

@@ -13,7 +13,7 @@ describe Cmxl do
       it { expect(subject.entry_date).to eql(Date.new(2014, 9, 2)) }
       it { expect(subject.amount).to eql(1.62) }
       it { expect(subject.amount_in_cents).to eql(162) }
-      it { expect(subject.transaction_id).to eql('281') }
+      it { expect(subject.primanota).to eql('281') }
       it {
         expect(subject.to_h).to eql(
           'date' => Date.new(2014, 9, 1),
@@ -59,7 +59,7 @@ describe Cmxl do
             '34' => '171'
           },
           'transaction_code' => '171',
-          'transaction_id' => '281',
+          'primanota' => '281',
           'details' => '?00SEPA LASTSCHRIFT KUNDE?10281?20KREF+EREF+TRX-0A4A47C3-F846-4729?21-8A1B-5DF620F?22:FOO:MREF+CAC97D2144174318A?23BF815BD4FB?24CRED+DE98ZZZ09999999999?25SVWZ+FOO TRX-0A4A47C3-F84?266-4729-8A1B-5DF620F?30HYVEDEMMXXX?31HUkkbbbsssskcccccccccccccccx?32Peter Pan?99?34171'
         )
       }
