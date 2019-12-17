@@ -1,3 +1,7 @@
+# 1.4.4
+
+- `[ENHANCEMENT]` adds transaction id parsing to statement details
+
 # 1.4.3
 
 - `[BUGFIX]` parse field identifier only at the beginning of lines
