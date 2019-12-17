@@ -1,3 +1,7 @@
+# 1.4.6
+
+- `[ENHANCEMENT]` make sure that tag, gemversion and readme align ʘ‿ʘ
+
 # 1.4.5
 
 - `[ENHANCEMENT]` renames transaction_id to primanota
