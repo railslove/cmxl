@@ -38,6 +38,10 @@ module Cmxl
         end
       end
 
+      def transaction_id
+        sub_fields['10']
+      end
+
       def bic
         sub_fields['30']
       end
@@ -60,6 +64,7 @@ module Cmxl
           'description' => description,
           'sub_fields' => sub_fields,
           'transaction_code' => transaction_code,
+          'transaction_id' => transaction_id,
           'details' => details
         }
       end
