@@ -70,6 +70,7 @@ describe Cmxl::Fields::StatementDetails do
           '99' => ''
         },
         'transaction_code' => '171',
+        'transaction_id' => '281',
         'details' => '?00SEPA LASTSCHRIFT KUNDE?10281?20KREF+EREF+TRX-0A4A47C3-F846-4729?21-8A1B-5DF620F?22MREF+CAC97D2144174318AC18D9?23BF815BD4FB?24CRED+DE98ZZZ09999999999?25SVWZ+FOO TRX-0A4A47C3-F84?266-4729-8A1B-5DF620F?30HYVEDEMMXXX?31HUkkbbbsssskcccccccccccccccx?32Peter Pan?99?34171'
       )
     }
