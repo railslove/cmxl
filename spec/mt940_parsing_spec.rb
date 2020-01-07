@@ -61,11 +61,18 @@ describe 'parsing a statement' do
     it { expect(subject.field('NS').to_h).to eql({tag: 'NS', modifier: 'F', source: 'HelloWorld'}) }
   end
 
+  context 'no generation date' do
+    subject { Cmxl.parse(mt940_file('mt940'))[3] }
+
+    it { expect(subject.reference).to eql('01ANWZTPJTYEGJWA') }
+    it { expect(subject.generation_date).to eql(nil) }
+  end
+
   context 'statement separator as used by most banks' do
     subject { Cmxl.parse(mt940_file('mt940')) }
 
     it 'detects all statements by default' do
-      expect(subject.size).to eq(3)
+      expect(subject.size).to eq(4)
     end
   end
 
