@@ -1,3 +1,6 @@
+# NEXT release
+
+- `[BUGFIX]` fix potential bug when generation_date is not provided in field 20 and 13 (issue: [#35](https://github.com/railslove/cmxl/issues/35) PR: [#36](https://github.com/railslove/cmxl/pull/36) thanks [@TobiTobiM]https://github.com/TobiTobiM]
 # 1.4.6
 
 - `[ENHANCEMENT]` make sure that tag, gemversion and readme align ʘ‿ʘ
