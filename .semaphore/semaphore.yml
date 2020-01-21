@@ -80,7 +80,18 @@ blocks:
             - ./cc-test-reporter before-build
             - bundle exec rspec
             - ./cc-test-reporter after-build
-
+        - name: "2.7 including Code Climate"
+          commands:
+            - checkout
+            - sem-version ruby 2.7
+            - cache restore
+            - bundle install
+            - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            - chmod +x ./cc-test-reporter
+            - cache store
+            - ./cc-test-reporter before-build
+            - bundle exec rspec
+            - ./cc-test-reporter after-build
         - name: "jruby-9.1.17.0"
           commands:
             - checkout
