@@ -36,9 +36,9 @@ module Cmxl
     end
 
     if options[:encoding]
-      data.encode!('UTF-8', options.delete(:encoding), options)
+      data.encode!('UTF-8', options.delete(:encoding), **options)
     else
-      data.encode!('UTF-8', options) unless options.empty?
+      data.encode!('UTF-8', **options) unless options.empty?
     end
 
     data.split(options[:statement_separator]).reject { |s| s.strip.empty? }.collect { |s| Cmxl::Statement.new(s.strip) }
