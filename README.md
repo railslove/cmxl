@@ -8,7 +8,7 @@
 At [Railslove](http://railslove.com) we build a lot of financial applications and work on integrating applications with banks and banking functionality.
 Our goal is to make simple solutions for what often looks complicated.
 
-Cmxl is a friendly and extendible MT940 bank statement file parser that helps your extracting data from the bank statement files.
+Cmxl is a friendly and extensible MT940 bank statement file parser that helps you extract data from bank statement files.
 
 ## What is MT940 & MT942?
 
@@ -16,7 +16,7 @@ MT940 (MT = Message Type) is the SWIFT-Standard for the electronic transfer of b
 When integrating with banks you often get MT940 or MT942 files as interface.
 For more information have a look at the different [SWIFT message types](http://en.wikipedia.org/wiki/SWIFT_message_types)
 
-At some point in the future MT940 file should be exchanged with newer XML documents - but banking institutions are slow so MT940 will stick around for a while.
+At some point in the future MT940 file should be exchanged with newer XML documents - but banking institutions are slow, so MT940 will stick around for a while.
 
 ## Reqirements
 
@@ -52,7 +52,7 @@ Cmxl.config[:statement_separator] = /\n-.\n/m
 # do you want an error to be raised when a line can not be parsed? default is true
 Cmxl.config[:raise_line_format_errors] = true
 
-# try to stip the SWIFT header data. This strips everything until the actual first MT940 field. (if parsing fails try this!)
+# try to stip the SWIFT header data. This strips everything until the actual first MT940 field. (if parsing fails, try this!)
 Cmxl.config[:strip_headers] = true
 
 
@@ -86,14 +86,14 @@ end
 
 ```
 
-Every object responds to `to_h` and let's you easily convert the data to a hash. Also every object responds to `to_json` which lets you easily represent the statements as JSON with your favorit JSON library.
+Every object responds to `to_h` and let's you easily convert the data to a hash. Also every object responds to `to_json` which lets you easily represent the statements as JSON with your favorite JSON library.
 
-#### A note about encoding and file wirednesses
+#### A note about encoding and file weirdnesses
 
 You probably will encounter encoding issues (hey, you are building banking applications!).
-We try to handle encoding and format wirednesses as much as possible. If no encoding is passed we try to guess the encoding of the data and convert it to UTF8.
-In the likely case that you encouter encoding issues you can pass encoding options to the `Cmxl.parse(<string>, <options hash>)` it accepts the same options as [String#encode](http://ruby-doc.org/core-2.1.3/String.html#method-i-encode)
-If that fails try to motify the file before you pass it to the parser - and please create an issue.
+We try to handle encoding and format weirdnesses as much as possible. If no encoding is passed we try to guess the encoding of the data and convert it to UTF8.
+In the likely case that you encounter encoding issues you can pass encoding options to `Cmxl.parse(<string>, <options hash>)`. It accepts the same options as [String#encode](http://ruby-doc.org/core-2.1.3/String.html#method-i-encode)
+If that fails, try to modify the file before you pass it to the parser - and please create an issue.
 
 ### MT940 SWIFT header data
 
