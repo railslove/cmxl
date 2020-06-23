@@ -20,7 +20,7 @@ At some point in the future MT940 file should be exchanged with newer XML docume
 
 Cmxl is a pure ruby parser and has no dependency on native extensions.
 
-- Ruby 1.9.3 or newer (jruby, etc.)
+- Ruby (current officially supported distributions)
 
 ## Installation
 
