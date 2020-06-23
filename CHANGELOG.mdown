@@ -1,6 +1,11 @@
 # NEXT release
 
-- `[BUGFIX]` fix potential bug when generation_date is not provided in field 20 and 13 (issue: [#35](https://github.com/railslove/cmxl/issues/35) PR: [#36](https://github.com/railslove/cmxl/pull/36) thanks [@TobiTobiM]https://github.com/TobiTobiM]
+# 1.5.0
+
+- `[BUGFIX]` fix potential bug when generation_date is not provided in field 20 and 13 (issue: [#35](https://github.com/railslove/cmxl/issues/35) PR: [#36](https://github.com/railslove/cmxl/pull/36))
+- `[FEATURE]` add transaction type 'S' to Field 61 (swift_code) (issue: [#38](https://github.com/railslove/cmxl/issues/38) PR: [#42](https://github.com/railslove/cmxl/pull/42)
+- `[ENHANCEMENT]` [Fix deprecations in ruby 2.7 for kw params](https://github.com/railslove/cmxl/commit/905cd50e5372da312a653c89e77727a14751b5ec)
+
 # 1.4.6
 
 - `[ENHANCEMENT]` make sure that tag, gemversion and readme align ʘ‿ʘ
