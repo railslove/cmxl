@@ -1,6 +1,4 @@
-[![Build Status](https://railslove.semaphoreci.com/badges/cmxl/branches/master.svg?style=shields)](https://railslove.semaphoreci.com/branches/96e7bf8e-be69-4f01-878c-be3dac0e6e8d)
-[![Code Climate](https://codeclimate.com/github/railslove/cmxl/badges/gpa.svg)](https://codeclimate.com/github/railslove/cmxl)
-[![Test Coverage](https://codeclimate.com/github/railslove/cmxl/badges/coverage.svg)](https://codeclimate.com/github/railslove/cmxl)
+[![Build Status](https://travis-ci.org/railslove/cmxl.svg?branch=master)](https://travis-ci.org/railslove/cmxl)
 [![Gem Version](https://badge.fury.io/rb/cmxl.svg)](http://badge.fury.io/rb/cmxl)
 
 # Cmxl - your friendly ruby MT940 parser
