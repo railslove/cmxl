@@ -186,5 +186,7 @@ other parsers:
 - [gmitrev/mt940parser](https://github.com/gmitrev/mt940parser)
 
 ---
+built with love by [Railslove](http://railslove.com) and some [amazing people](https://github.com/railslove/cmxl/graphs/contributors).  
+Released under the MIT-Licence. 
 
-2014 - built with love by [Railslove](http://railslove.com) and released under the MIT-Licence. We have built quite a number of FinTech products. If you need support we are happy to help. Please contact us at team@railslove.com.
+Railslove builds FinTech products, if you need support for your project we are happy to help. Please contact us at team@railslove.com.
