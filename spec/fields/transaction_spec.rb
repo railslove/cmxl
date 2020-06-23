@@ -9,6 +9,7 @@ describe Cmxl::Fields::Transaction do
   subject(:complex_supplementary_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_supplementary_complex)) }
   subject(:valuta_after_enty_date) { Cmxl::Fields::Transaction.parse(fixture[3]) }
   subject(:entry_before_valuta_transaction) { Cmxl::Fields::Transaction.parse(fixture[2]) }
+  subject(:transaction_type_swift) { Cmxl::Fields::Transaction.parse(fixture[4]) }
 
   let(:fixture) { fixture_line(:statement_line).split(/\n/) }
 
@@ -90,5 +91,20 @@ describe Cmxl::Fields::Transaction do
       expect(valuta_after_enty_date.date).to eql(Date.new(2014, 12, 24))
       expect(valuta_after_enty_date.entry_date).to eql(Date.new(2015, 1, 2))
     end
+  end
+
+  context 'transaction type swift transfer' do
+    it { expect(transaction_type_swift.date).to eql(Date.new(2019, 11, 18)) }
+    it { expect(transaction_type_swift.entry_date).to eql(Date.new(2019, 11, 18)) }
+    it { expect(transaction_type_swift.funds_code).to eql('C') }
+    it { expect(transaction_type_swift.currency_letter).to eql('R') }
+    it { expect(transaction_type_swift.amount).to eql(653.0) }
+    it { expect(transaction_type_swift.amount_in_cents).to eql(65300) }
+    it { expect(transaction_type_swift.swift_code).to eql('S445') }
+    it { expect(transaction_type_swift.reference).to eql('328556-76501096') }
+    it { expect(transaction_type_swift).to be_credit }
+    it { expect(transaction_type_swift).not_to be_debit }
+    it { expect(transaction_type_swift).not_to be_storno }
+    it { expect(transaction_type_swift.sign).to eql(1) }
   end
 end

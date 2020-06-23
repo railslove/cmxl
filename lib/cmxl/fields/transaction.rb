@@ -2,7 +2,7 @@ module Cmxl
   module Fields
     class Transaction < Field
       self.tag = 61
-      self.parser = %r{^(?<date>\d{6})(?<entry_date>\d{4})?(?<storno_flag>R?)(?<funds_code>[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F).{3})(?<reference>NONREF|(.(?!\/\/)){,16}([^\/]){,1})((?:\/\/)(?<bank_reference>[^\n]{,16}))?((?:\n)(?<supplementary>.{,34}))?$}
+      self.parser = %r{^(?<date>\d{6})(?<entry_date>\d{4})?(?<storno_flag>R?)(?<funds_code>[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F|S).{3})(?<reference>NONREF|(.(?!\/\/)){,16}([^\/]){,1})((?:\/\/)(?<bank_reference>[^\n]{,16}))?((?:\n)(?<supplementary>.{,34}))?$}
 
       attr_accessor :details
 
