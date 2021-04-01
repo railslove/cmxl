@@ -5,6 +5,7 @@ describe 'parsing a statement' do
     subject { Cmxl.parse(mt940_file('mt940-iso8859-1'))[0] }
 
     it { expect(subject.reference).to eql('1234567') }
+    it { expect(subject.legal_sequence_number).to eql('5/1') }
     it { expect(subject.opening_balance.amount_in_cents).to eql(218_795) }
     it { expect(subject.closing_balance.amount_in_cents).to eql(438_795) }
     it { expect(subject.transactions.last.description).to eql('ÜBERWEISUNG') }
@@ -17,6 +18,7 @@ describe 'parsing a statement' do
     subject { Cmxl.parse(mt940_file, encoding: 'ISO-8859-1', universal_newline: true)[0] }
 
     it { expect(subject.reference).to eql('131110') }
+    it { expect(subject.legal_sequence_number).to eql('27/01') }
     it { expect(subject.opening_balance.amount_in_cents).to eql(8_434_974) }
     it { expect(subject.closing_balance.amount_in_cents).to eql(8_443_704) }
     it { expect(subject.generation_date).to eql(Date.new(2013, 11, 10)) }
@@ -31,6 +33,7 @@ describe 'parsing a statement' do
     subject { Cmxl.parse(mt940_file, encoding: 'ISO-8859-1', universal_newline: true)[1] }
 
     it { expect(subject.reference).to eql('1234567') }
+    it { expect(subject.legal_sequence_number).to eql('5/1') }
     it { expect(subject.opening_balance.amount_in_cents).to eql(218_795) }
     it { expect(subject.closing_balance.amount_in_cents).to eql(438_795) }
     it { expect(subject.generation_date).to eql('123456') }
@@ -47,6 +50,7 @@ describe 'parsing a statement' do
     subject { Cmxl.parse(mt940_file, encoding: 'ISO-8859-1', universal_newline: true)[2] }
 
     it { expect(subject.reference).to eql('TELEWIZORY S.A.') }
+    it { expect(subject.legal_sequence_number).to eql('00084/001') }
     it { expect(subject.opening_balance.amount_in_cents).to eql(4_000_000) }
     it { expect(subject.closing_balance.amount_in_cents).to eql(5_004_000) }
     it { expect(subject.reference).to eql('TELEWIZORY S.A.') }
