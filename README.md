@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/railslove/cmxl.svg?branch=master)](https://travis-ci.org/railslove/cmxl)
 [![Gem Version](https://badge.fury.io/rb/cmxl.svg)](http://badge.fury.io/rb/cmxl)
 
 # Cmxl - your friendly ruby MT940 parser
