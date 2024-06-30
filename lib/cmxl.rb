@@ -1,6 +1,6 @@
 require 'cmxl/version'
 
-require 'rchardet19'
+require 'rchardet'
 
 require 'cmxl/field'
 require 'cmxl/statement'
@@ -31,8 +31,8 @@ module Cmxl
   def self.parse(data, options = {})
     options[:statement_separator] ||= config[:statement_separator]
     # if no encoding is provided we try to guess using CharDet
-    if options[:encoding].nil? && cd = CharDet.detect(data, silent: true)
-      options[:encoding] = cd.encoding
+    if options[:encoding].nil? && cd = CharDet.detect(data)
+      options[:encoding] = cd['encoding']
     end
 
     if options[:encoding]
