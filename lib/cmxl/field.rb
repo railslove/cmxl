@@ -13,7 +13,7 @@ module Cmxl
 
     # The parser class variable is the registry of all available parser.
     # It is a hash with the tag (MT940 field number/tag) as key and the class as value
-    # When parsing a statment line we look for a matching entry or use the Unknown class as default
+    # When parsing a statement line we look for a matching entry or use the Unknown class as default
     @@parsers = {}
     @@parsers.default = Unknown
     def self.parsers
