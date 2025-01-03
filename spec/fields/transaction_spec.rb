@@ -70,6 +70,11 @@ describe Cmxl::Fields::Transaction do
   end
 
   context 'statement with complex supplementary' do
+    it 'future reference' do
+      result = Cmxl::Fields::Transaction.parse(':61:2412121212ED162,57NDDTNONREF//950\n')
+      expect(result.amount).to eql(162.57)
+    end
+
     it { expect(complex_supplementary_transaction.initial_amount_in_cents).to eql(nil) }
     it { expect(complex_supplementary_transaction.initial_currency).to eql(nil) }
 
@@ -106,5 +111,78 @@ describe Cmxl::Fields::Transaction do
     it { expect(transaction_type_swift).not_to be_debit }
     it { expect(transaction_type_swift).not_to be_storno }
     it { expect(transaction_type_swift.sign).to eql(1) }
+  end
+
+  describe '#credit_debit_indicator' do
+    it 'returns the credit_debit_indicator as debit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902DR000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result.credit_debit_indicator).to eql('D')
+    end
+
+    it 'returns the credit_debit_indicator as credit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902CR000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result.credit_debit_indicator).to eql('C')
+    end
+
+    it 'returns the credit_debit_indicator as reversal credit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902RC000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result.credit_debit_indicator).to eql('RC')
+    end
+
+    it 'returns the credit_debit_indicator as reversal debit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902RD000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result.credit_debit_indicator).to eql('RD')
+    end
+
+    it 'returns the credit_debit_indicator as expected credit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902EC000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result.credit_debit_indicator).to eql('EC')
+    end
+  end
+
+  describe '#expected?' do
+    it 'returns true if the transaction is expected' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902EC000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result).to be_expected
+    end
+
+    it 'returns false if the transaction is not expected' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902RD000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result).not_to be_expected
+    end
+  end
+
+  describe '#expected_credit?' do
+    it 'returns true if the transaction is expected and credit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902EC000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result).to be_expected_credit
+    end
+
+    it 'returns false if the transaction is not expected and credit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902RC000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result).not_to be_expected_credit
+    end
+
+    it 'returns false if the transaction is expected and debit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902ED000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result).not_to be_expected_credit
+    end
+  end
+
+  describe '#expected_debit?' do
+    it 'returns true if the transaction is expected and debit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902ED000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result).to be_expected_debit
+    end
+
+    it 'returns false if the transaction is not expected and debit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902RD000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result).not_to be_expected_debit
+    end
+
+    it 'returns false if the transaction is expected and credit' do
+      result = Cmxl::Fields::Transaction.parse(':61:1409010902EC000000000001,62NTRF0000549855700010//025498557/000001')
+      expect(result).not_to be_expected_debit
+    end
   end
 end

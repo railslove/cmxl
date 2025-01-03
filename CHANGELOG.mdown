@@ -1,5 +1,10 @@
 # NEXT release
 
+# 2.0
+- `[REFACTOR]` **DEPRECATED:** `storno?` and related methods `storno_credit`, `storno_debit`. Use `reversal?` and related methods `reversal_credit?`, `reversal_debit?` instead
+- `[BUGFIX]` **DEPRECATED:** `funds_code` method returns the `credit_debit_indicator` from the SWIFT definition. Therefore the method is deprecated in favor of `credit_debit_indicator` method
+- `[HOUSEKEEPING]` [Replace Travis CI with github actions](https://github.com/railslove/cmxl/pull/57)
+
 # 1.5.0
 
 - `[BUGFIX]` fix potential bug when generation_date is not provided in field 20 and 13 (issue: [#35](https://github.com/railslove/cmxl/issues/35) PR: [#36](https://github.com/railslove/cmxl/pull/36))

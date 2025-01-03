@@ -68,7 +68,7 @@ statements.each do |s|
     puts t.information
     puts t.description
     puts t.entry_date
-    puts t.funds_code
+    puts t.credit_debit_indicator
     puts t.credit?
     puts t.debit?
     puts t.sign # -1 if it's a debit; 1 if it's a credit
