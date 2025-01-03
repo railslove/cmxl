@@ -1,4 +1,5 @@
-[![Gem Version](https://badge.fury.io/rb/cmxl.svg)](http://badge.fury.io/rb/cmxl)
+[![CI](https://github.com/railslove/cmxl/actions/workflows/ci.yml/badge.svg)](https://github.com/railslove/cmxl/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/cmxl.svg)](https://rubygems.org/gems/cmxl)
 
 # Cmxl - your friendly ruby MT940 parser
 
@@ -15,7 +16,7 @@ For more information have a look at the different [SWIFT message types](http://e
 
 At some point in the future MT940 file should be exchanged with newer XML documents - but banking institutions are slow, so MT940 will stick around for a while.
 
-## Reqirements
+## Requirements
 
 Cmxl is a pure ruby parser and has no dependency on native extensions.
 
@@ -95,7 +96,7 @@ If that fails, try to modify the file before you pass it to the parser - and ple
 ### MT940 SWIFT header data
 
 Cmxl currently does not support parsing of the SWIFT headers (like {1:F01AXISINBBA ....)
-If your file comes with these headers try the `strip_headers` configuration option to strip data execpt the actual MT940 fields.
+If your file comes with these headers try the `strip_headers` configuration option to strip data except the actual MT940 fields.
 
 ```ruby
 Cmxl.config[:strip_headers] = true
@@ -186,6 +187,6 @@ other parsers:
 
 ---
 built with love by [Railslove](http://railslove.com) and some [amazing people](https://github.com/railslove/cmxl/graphs/contributors).  
-Released under the MIT-Licence. 
+Released under the MIT-License. 
 
 Railslove builds FinTech products, if you need support for your project we are happy to help. Please contact us at team@railslove.com.
