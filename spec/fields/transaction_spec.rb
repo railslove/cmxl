@@ -7,7 +7,7 @@ describe Cmxl::Fields::Transaction do
   subject(:ocmt_cghs_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_ocmt_chgs)) }
   subject(:supplementary_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_supplementary_plain)) }
   subject(:complex_supplementary_transaction) { Cmxl::Fields::Transaction.parse(fixture_line(:statement_supplementary_complex)) }
-  subject(:valuta_after_enty_date) { Cmxl::Fields::Transaction.parse(fixture[3]) }
+  subject(:valuta_after_entry_date) { Cmxl::Fields::Transaction.parse(fixture[3]) }
   subject(:entry_before_valuta_transaction) { Cmxl::Fields::Transaction.parse(fixture[2]) }
   subject(:transaction_type_swift) { Cmxl::Fields::Transaction.parse(fixture[4]) }
 
@@ -82,14 +82,14 @@ describe Cmxl::Fields::Transaction do
   end
 
   context 'valuta and entry-date assumptions' do
-    it 'entry_date before valuta is recognized correclty when including year-change' do
+    it 'entry_date before valuta is recognized correctly when including year-change' do
       expect(entry_before_valuta_transaction.date).to eql(Date.new(2014, 1, 10))
       expect(entry_before_valuta_transaction.entry_date).to eql(Date.new(2013, 12, 24))
     end
 
     it 'entry_date after valuta is recognized correctly when including year-change' do
-      expect(valuta_after_enty_date.date).to eql(Date.new(2014, 12, 24))
-      expect(valuta_after_enty_date.entry_date).to eql(Date.new(2015, 1, 2))
+      expect(valuta_after_entry_date.date).to eql(Date.new(2014, 12, 24))
+      expect(valuta_after_entry_date.entry_date).to eql(Date.new(2015, 1, 2))
     end
   end
 
