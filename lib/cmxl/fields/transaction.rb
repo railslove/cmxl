@@ -2,7 +2,7 @@ module Cmxl
   module Fields
     class Transaction < Field
       self.tag = 61
-      self.parser = %r{^(?<date>\d{6})(?<entry_date>\d{4})?(?<storno_flag>R?)(?<funds_code>[CD]{1})(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F|S).{3})(?<reference>NONREF|(.(?!\/\/)){,16}([^\/]){,1})((?:\/\/)(?<bank_reference>[^\n]{,16}))?((?:\n)(?<supplementary>.{,34}))?$}
+      self.parser = %r{^(?<date>\d{6})(?<entry_date>\d{4})?(?<credit_debit_indicator>D|C|RD|RC|ED|EC)(?<currency_letter>[a-zA-Z])?(?<amount>\d{1,12},\d{0,2})(?<swift_code>(?:N|F|S).{3})(?<reference>NONREF|(.(?!\/\/)){,16}([^\/]){,1})((?:\/\/)(?<bank_reference>[^\n]{,16}))?((?:\n)(?<supplementary>.{,34}))?$}
 
       attr_accessor :details
 
@@ -15,31 +15,63 @@ module Cmxl
       end
 
       def credit?
-        data['funds_code'].to_s.casecmp('C').zero?
+        credit_debit_indicator.include?('C')
       end
 
       def debit?
-        data['funds_code'].to_s.casecmp('D').zero?
+        credit_debit_indicator.include?('D')
       end
 
       def storno_credit?
+        warn "[DEPRECATION] `storno_credit?` is deprecated.  Please use `reversal_credit?` instead. It will be removed in version 3.0."
+        reversal_credit?
+      end
+
+      def reversal_credit?
         credit? && storno?
       end
 
       def storno_debit?
+        warn "[DEPRECATION] `storno_debit?` is deprecated.  Please use `reversal_debit?` instead. It will be removed in version 3.0."
+        reversal_debit?
+      end
+
+      def reversal_debit?
         debit? && storno?
       end
 
       def storno?
-        !storno_flag.empty?
+        warn "[DEPRECATION] `storno?` is deprecated.  Please use `reversal?` instead. It will be removed in version 3.0."
+        reversal?
+      end
+
+      def reversal?
+        credit_debit_indicator.include?('R')
+      end
+
+      def expected_credit?
+        credit? && expected?
+      end
+
+      def expected_debit?
+        debit? && expected?
+      end
+
+      def expected?
+        credit_debit_indicator.include?('E')
+      end
+
+      def credit_debit_indicator
+        data['credit_debit_indicator'].to_s
       end
 
       def funds_code
-        data.values_at('storno_flag', 'funds_code').join
+        warn "[DEPRECATION] `funds_code` is deprecated.  Please use `credit_debit_indicator` instead. It will be removed in version 3.0."
+        data['credit_debit_indicator'].to_s
       end
 
       def storno_flag
-        data['storno_flag']
+        reversal? ? 'R' : ''
       end
 
       def sign
@@ -140,8 +172,11 @@ module Cmxl
           'sign' => sign,
           'debit' => debit?,
           'credit' => credit?,
-          'storno' => storno?,
-          'funds_code' => funds_code,
+          'storno' => reversal?,
+          'reversal' => reversal?,
+          'expected' => expected?,
+          'funds_code' => credit_debit_indicator,
+          'credit_debit_indicator' => credit_debit_indicator,
           'swift_code' => swift_code,
           'reference' => reference,
           'bank_reference' => bank_reference,

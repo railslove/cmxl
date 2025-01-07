@@ -27,9 +27,12 @@ describe Cmxl do
           'bank_reference' => '025498557/000001',
           'amount_in_cents' => 162,
           'sign' => -1,
+          'credit_debit_indicator' => 'D',
           'debit' => true,
           'credit' => false,
           'storno' => false,
+          'reversal' => false,
+          'expected' => false,
           'bic' => 'HYVEDEMMXXX',
           'iban' => 'HUkkbbbsssskcccccccccccccccx',
           'name' => 'Peter Pan',
@@ -81,6 +84,7 @@ describe Cmxl do
           'sha' => '3c5e65aa3d3878b06b58b6f1ae2f3693004dfb04e3ab7119a1c1244e612293da',
           'entry_date' => Date.new(2014, 9, 2),
           'funds_code' => 'D',
+          'credit_debit_indicator' => 'D',
           'currency_letter' => 'R',
           'amount' => 1.62,
           'swift_code' => 'NTRF',
@@ -90,7 +94,9 @@ describe Cmxl do
           'sign' => -1,
           'debit' => true,
           'credit' => false,
-          'storno' => false
+          'storno' => false,
+          'reversal' => false,
+          'expected' => false,
         )
       end
     end
