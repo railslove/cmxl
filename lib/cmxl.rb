@@ -11,7 +11,11 @@ module Cmxl
     @config
   end
   @config = {
-    statement_separator: /\n-\s*\n/m,
+    # One or more newlines
+    # followed by `-` at the beginning of a line.
+    # "Eats up" but does not require characters until the end of the line and more newlines.
+    # \R is a platform independent newline but in the negated group `[^\n\r]` that did not seem to work.
+    statement_separator: /\R+-[^\n\r]*\R*/m,
     raise_line_format_errors: true,
     strip_headers: false
   }
