@@ -41,8 +41,8 @@ module Cmxl
     end
 
     def strip_headers!
-      source.gsub!(/\A.+?(?=^:)/m, '') # beginning: strip every line in the beginning that does not start with a :
-      source.gsub!(/^[^:]+\z/, '') # end: strip every line in the end that does not start with a :
+      source.gsub!(/\A.*?(?=^:)/m, '') # beginning: strip every line in the beginning that does not start with a :
+      source.gsub!(/^[^:]*\z/, '') # end: strip every line in the end that does not start with a :
       source.strip!
     end
 

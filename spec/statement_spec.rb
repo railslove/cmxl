@@ -101,7 +101,7 @@ describe Cmxl do
       end
     end
 
-    describe 'statement issued over a years boudary' do
+    describe 'statement issued over a years boundary' do
       subject { Cmxl.parse(mt940_file('statement-mt940')).first.transactions.last }
 
       it { expect(subject.mt942?).to be_falsey }
@@ -167,4 +167,88 @@ describe Cmxl do
     it { expect(statement.generation_date).to eql(Date.new(2019, 1, 9)) }
   end
 
+  describe "header parsing" do
+    context "when strip_headers is enabled" do
+      around do |example|
+        existing_value = Cmxl.config[:strip_headers]
+        Cmxl.config[:strip_headers] = true
+        example.run
+        Cmxl.config[:strip_headers] = existing_value
+      end
+
+      it "removes any headers" do
+        data = <<~MT940.chomp
+          {1:D02AASDISLNETAXXXXXXXXXXXXX}
+          {2:E623XXXXXXXXAXXXN}
+          {4:
+          :20:MT940/78374
+          :25:xxxxxxxxxxxxxx
+          :28C:3/1
+          :60F:C160201INR0,00
+          :61:3622687806CR1368378,92NMSC37935531
+          :86:-TX TRN-REF NO.1156ADS5601187 EUR 13456/TSV
+          :62F:C141387INR11 27421,94
+          -}
+        MT940
+
+        result = Cmxl::Statement.new(data)
+
+        expect(result.fields.count).to eq(6)
+      end
+
+      it "does nothing if there are no headers" do
+        data = <<~MT940.chomp
+          :20:MT940/78374
+          :25:xxxxxxxxxxxxxx
+          :28C:3/1
+          :60F:C160201INR0,00
+          :61:3622687806CR1368378,92NMSC37935531
+          :86:-TX TRN-REF NO.1156ADS5601187 EUR 13456/TSV
+          :62F:C141387INR11 27421,94
+        MT940
+
+        result = Cmxl::Statement.new(data)
+
+        expect(result.fields.count).to eq(6)
+      end
+    end
+
+    context "when strip_headers is disabled" do
+      it "raise an parsing error exception if headers are present" do
+        data = <<~MT940.chomp
+          {1:D02AASDISLNETAXXXXXXXXXXXXX}
+          {2:E623XXXXXXXXAXXXN}
+          {4:
+          :20:MT940/78374
+          :25:xxxxxxxxxxxxxx
+          :28C:3/1
+          :60F:C160201INR0,00
+          :61:3622687806CR1368378,92NMSC37935531
+          :86:-TX TRN-REF NO.1156ADS5601187 EUR 13456/TSV
+          :62F:C141387INR11 27421,94
+          -}
+        MT940
+
+        expect{
+          Cmxl::Statement.new(data)
+        }.to raise_error(Cmxl::Field::LineFormatError)
+      end
+
+      it "extracts the field" do
+        data = <<~MT940.chomp
+          :20:MT940/78374
+          :25:xxxxxxxxxxxxxx
+          :28C:3/1
+          :60F:C160201INR0,00
+          :61:3622687806CR1368378,92NMSC37935531
+          :86:-TX TRN-REF NO.1156ADS5601187 EUR 13456/TSV
+          :62F:C141387INR11 27421,94
+        MT940
+
+        result = Cmxl::Statement.new(data)
+
+        expect(result.fields.count).to eq(6)
+      end
+    end
+  end
 end
