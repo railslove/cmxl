@@ -214,6 +214,13 @@ describe Cmxl do
     end
 
     context "when strip_headers is disabled" do
+      around do |example|
+        existing_value = Cmxl.config[:strip_headers]
+        Cmxl.config[:strip_headers] = false
+        example.run
+        Cmxl.config[:strip_headers] = existing_value
+      end
+
       it "raise an parsing error exception if headers are present" do
         data = <<~MT940.chomp
           {1:D02AASDISLNETAXXXXXXXXXXXXX}
