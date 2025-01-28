@@ -1,5 +1,11 @@
 # NEXT release
 
+# 2.1
+- `[REFACTOR]` improve file parser to work with windows line breaks and any known header formats
+- `[BUGFIX]` fix `strip_header` making it work on statements without headers
+- `[HOUSEKEEPING]` use `main` instead of `master` as default branch
+- `[ENHANCEMENT]` add support for ruby `3.4`
+
 # 2.0
 - `[REFACTOR]` **DEPRECATED:** `storno?` and related methods `storno_credit`, `storno_debit`. Use `reversal?` and related methods `reversal_credit?`, `reversal_debit?` instead
 - `[BUGFIX]` **DEPRECATED:** `funds_code` method returns the `credit_debit_indicator` from the SWIFT definition. Therefore the method is deprecated in favor of `credit_debit_indicator` method
