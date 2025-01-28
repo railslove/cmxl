@@ -1,3 +1,3 @@
 module Cmxl
-  VERSION = '2.0'.freeze
+  VERSION = '2.1'.freeze
 end
