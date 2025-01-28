@@ -38,25 +38,11 @@ Or install it yourself as:
 
 ## Usage
 
-Simple usage:
+### Simple usage:
 
 ```ruby
+statements = Cmxl.parse(File.read('mt940.txt'))
 
-# Configuration:
-
-# statement divider regex to split the individual statements in one file - the default is standard and should be good for most files
-Cmxl.config[:statement_separator] = /\n-.\n/m
-
-# do you want an error to be raised when a line can not be parsed? default is true
-Cmxl.config[:raise_line_format_errors] = true
-
-# try to stip the SWIFT header data. This strips everything until the actual first MT940 field. (if parsing fails, try this!)
-Cmxl.config[:strip_headers] = true
-
-
-# Statment parsing:
-
-statements = Cmxl.parse(File.read('mt940.txt'), :encoding => 'ISO-8859-1') # parses the file and returns an array of statement objects. Please note: if no encoding is given Cmxl tries to guess the encoding from the content and converts it to UTF-8.
 statements.each do |s|
   puts s.reference
   puts s.generation_date
@@ -81,25 +67,58 @@ statements.each do |s|
     # ...
   end
 end
-
 ```
 
 Every object responds to `to_h` and let's you easily convert the data to a hash. Also every object responds to `to_json` which lets you easily represent the statements as JSON with your favorite JSON library.
 
-#### A note about encoding and file weirdnesses
+### File encoding options
 
 You probably will encounter encoding issues (hey, you are building banking applications!).
 We try to handle encoding and format weirdnesses as much as possible. If no encoding is passed we try to guess the encoding of the data and convert it to UTF8.
 In the likely case that you encounter encoding issues you can pass encoding options to `Cmxl.parse(<string>, <options hash>)`. It accepts the same options as [String#encode](http://ruby-doc.org/core-2.1.3/String.html#method-i-encode)
 If that fails, try to modify the file before you pass it to the parser - and please create an issue.
 
-### MT940 SWIFT header data
+```ruby
+Cmxl.parse(File.read('mt940.txt'), :encoding => 'ISO-8859-1')
+```
 
+## Global configurations:
+The gem offers option to adjust behavior for the gem
+
+### `statement_separator`
+statement divider regex to split the individual statements in one file
+
+|type|default|
+|----|-------|
+|regex|[`/\R+-[^\n\r]*\R*/m`](https://github.com/railslove/cmxl/blob/main/lib/cmxl.rb#L18)|
+
+```ruby
+Cmxl.config[:statement_separator] = ...
+Cmxl.parse(...)
+```
+
+### `raise_line_format_errors`
+do you want an error to be raised when a line can not be parsed? 
+
+|type|default|
+|----|-------|
+|boolean|[`true`](https://github.com/railslove/cmxl/blob/main/lib/cmxl.rb#L19)|
+
+```ruby
+Cmxl.config[:raise_line_format_errors] = ...
+Cmxl.parse(...)
+```
+
+### `strip_headers`
 Cmxl currently does not support parsing of the SWIFT headers (like {1:F01AXISINBBA ....)
 If your file comes with these headers try the `strip_headers` configuration option to strip data except the actual MT940 fields.
 
+|type|default|
+|----|-------|
+|boolean|[`false`](https://github.com/railslove/cmxl/blob/main/lib/cmxl.rb#L20)|
+
 ```ruby
-Cmxl.config[:strip_headers] = true
+Cmxl.config[:strip_headers] = ...
 Cmxl.parse(...)
 ```
 
