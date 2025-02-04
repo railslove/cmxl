@@ -17,7 +17,7 @@ module Cmxl
     # \R is a platform independent newline but in the negated group `[^\n\r]` that did not seem to work.
     statement_separator: /\R+-[^\n\r]*\R*/m,
     raise_line_format_errors: true,
-    strip_headers: false
+    strip_headers: true
   }
 
   # Public: Parse a MT940 string

@@ -7,7 +7,7 @@ module Cmxl
       class << self
         def parse(line)
           # remove line breaks as they are allowed via documentation but not needed for data-parsing
-          super line.delete("\n")
+          super line.gsub(/\R?/, '')
         end
       end
 

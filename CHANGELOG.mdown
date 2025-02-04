@@ -1,5 +1,10 @@
 # NEXT release
 
+# 2.2
+- `[ENHANCEMENT]` enable `strip_headers` option per default.
+- `[BUGFIX]` fix `strip_header` remove greedy regex logic
+- `[BUGFIX]` support details parsing from files on windows os
+
 # 2.1
 - `[REFACTOR]` improve file parser to work with windows line breaks and any known header formats
 - `[BUGFIX]` fix `strip_header` making it work on statements without headers
