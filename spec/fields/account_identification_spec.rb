@@ -10,6 +10,15 @@ describe Cmxl::Fields::AccountIdentification do
     it { expect(subject.country).to be_nil }
   end
 
+  context 'legacy data with spillted iban' do
+    subject { Cmxl::Fields::AccountBalance.parse( fixture_line(:account_identification_short) ) }
+
+    it { expect(subject.bank_code).to eql('AT32000') }
+    it { expect(subject.account_number).to eql('4005287001') }
+    it { expect(subject.currency).to eql('EUR') }
+    it { expect(subject.country).to be_nil }
+  end
+
   context 'iban' do
     subject { Cmxl::Fields::AccountBalance.parse(fixture_line(:account_identification_iban)) }
     it { expect(subject.country).to eql('PL') }
